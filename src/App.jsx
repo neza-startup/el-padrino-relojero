@@ -9,7 +9,7 @@ import './App.css';
 /* import contact from '../assets/contact.svg'; */
 import corncrunch from './assets/corncrunch.svg';
 /* import nezaBorder from '../assets/neza-logo-border.svg'; */
-import Modal from './Modal';
+/* import Modal from './Modal'; */
 import neza from './assets/neza-logo.svg';
 import profile from './assets/relojero.png';
 
@@ -353,8 +353,7 @@ function App() {
           }
         </div>
 
-
-        <Modal ref={modalRef} />
+        {/* <Modal ref={modalRef} /> */}
       </div>
       <footer className={styles.footer}>
         <span className={styles.footerText}>Copyright &#169; {new Date().getFullYear()}. El Padrino Relojero.</span>

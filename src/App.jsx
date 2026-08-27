@@ -238,19 +238,19 @@ function App() {
           </div>
 
           <div className={styles.socialLinks}>
-            <a href="/contact.vcf" download="contact.vcf" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
+            <a href="https://www.tiktok.com/@el.padrino.reloje" download="contact.vcf" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
               <FontAwesomeIcon icon={faTiktok} className={styles.icon} />
               Tiktok
             </a>
-            <a href="mailto:contact@elvirodominguez.com?subject=Contacting%20for%20Job%20Opportunity&body=Hello,%20Elviro:%0D%0A%0D%0AI%20want%20to%20get%20in%20touch%20with%20you%20regarding%20a%20job%20opportunity..." target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
+            <a href="https://wa.me/527771204363" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
               <FontAwesomeIcon icon={faWhatsapp} className={styles.icon} />
               WhatsApp
             </a>
-            <a href="tel:+527771395795" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
+            <a href="tel:+527771204363" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
               <FontAwesomeIcon icon={faPhone} className={styles.icon} />
-              Telefono
+              Tel&eacute;fono
             </a>
-            <a href="https://www.linkedin.com/in/elviro-dominguez-soriano" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
+            <a href="https://www.instagram.com/elpadrino_relojero/" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
               <FontAwesomeIcon icon={faInstagram} className={styles.icon} />
               Instagram
             </a>

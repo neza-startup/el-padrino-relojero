@@ -11,7 +11,7 @@ import corncrunch from './assets/corncrunch.svg';
 /* import nezaBorder from '../assets/neza-logo-border.svg'; */
 /* import Modal from './Modal'; */
 import neza from './assets/neza-logo.svg';
-import profile from './assets/relojero.png';
+import profile from './assets/profile.png';
 
 function App() {
 

@@ -142,11 +142,11 @@ div.linkInBio {
     justify-content: center;
     align-items: center;
     /* width: 100%; */
-    border: 2px solid #D9D9D9;
+    /* border: 2px solid #D9D9D9;
     padding: 0.25rem;
     border-radius: 50%;
     position: relative;
-    cursor: pointer;
+    cursor: pointer; */
 
     img.profileImage {
       max-width: 8rem;
@@ -154,23 +154,28 @@ div.linkInBio {
       aspect-ratio: 1 / 1;
       object-fit: cover;
       object-position: center;
+
+      /* selecciona una imagen y aplicala solo si el tema es dark */
+      @media (prefers-color-scheme: dark) {
+        content: url("../src/assets/profile_dark.png");
+      }
     }
 
-    div.onlineStatus {
+    /* div.onlineStatus {
       position: absolute;
       bottom: 1.5rem;
       right: calc(50% - 4rem);
       width: 1.5rem;
       height: 1.5rem;
-      background-color:
-        /* #22C55E */
-        #4ade80;
-      /* Green color */
-      border: 2px solid white;
+      background-color: */
+    /* #22C55E */
+    /* #4ade80; */
+    /* Green color */
+    /* border: 2px solid white;
       border-radius: 50%;
       box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
       animation: pulse 2s infinite;
-    }
+    } */
   }
 
   header.header {
@@ -238,7 +243,7 @@ div.linkInBio {
       justify-content: center;
       align-items: center;
       /* gap: 0.5rem; */
-      background-color: #F5F5F5;
+      background-color: light-dark(#F5F5F5, #1E1E1E);
       padding: 1rem;
       border-radius: 0.5rem;
       text-align: center;
@@ -322,49 +327,20 @@ div.linkInBio {
             transform: scale(1.1);
           }
 
-          &:first-of-type:hover .icon {
-            /* color: light-dark(rgb(222, 201, 160), rgb(180, 160, 120)); */
-            color: light-dark(rgb(169, 134, 63), rgb(217, 180, 100));
+          &:first-of-type:hover {
+            color: light-dark(#24292e, #c9d1d9) !important;
           }
 
-          &:nth-of-type(2):hover .icon {
-            color: light-dark(var(--text-aux-color), var(--details));
+          &:nth-of-type(2):hover {
+            color: light-dark(#16A34A, #22c55e);
           }
 
-          &:nth-of-type(3):hover .icon {
-            color: light-dark(var(--text-aux-color), var(--details));
+          &:nth-of-type(3):hover {
+            color: light-dark(#838282, #9ca3af);
           }
 
-          &:nth-of-type(4):hover .icon {
-            color: light-dark(#0e76a8, #0e76a8);
-          }
-
-          &:nth-of-type(5):hover .icon {
-            color: light-dark(#24292e, #c9d1d9);
-          }
-
-          &:nth-of-type(6):hover .icon {
-            color: light-dark(var(--text-aux-color), var(--details));
-          }
-
-          /* Google Maps Location Dot */
-          &:nth-of-type(7):hover .icon {
-            color: light-dark(#FF0000, #d93025);
-          }
-
-          /* PayPal */
-          &:nth-of-type(8):hover .icon {
-            color: light-dark(#003087, #009cde);
-          }
-
-          /* Resume */
-          &:nth-of-type(9):hover .icon {
-            color: light-dark(var(--text-aux-color), var(--details));
-          }
-
-          /* Calendly */
-          &:nth-of-type(10):hover .icon {
-            color: light-dark(#4d90fe, #4d90fe);
+          &:nth-of-type(4):hover {
+            color: light-dark(#A61E68, #C2185B);
           }
         }
       }

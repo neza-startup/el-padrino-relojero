@@ -296,9 +296,9 @@ div.linkInBio {
       width: 100%;
       max-width: 20rem;
       flex-wrap: nowrap;
-      flex-direction: row;
 
-      a.headerLink {
+      a.headerLink,
+      span.headerLink {
         text-decoration: none;
         cursor: pointer;
         font-weight: 600;
@@ -608,8 +608,23 @@ footer.footer {
   div.linkInBio {
     header.header {
       div.socialLinks {
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         flex-direction: row;
+        min-width: 100%;
+
+        a.headerLink,
+        span.headerLink {
+          font-size: 0.9rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5rem;
+
+          .icon {
+            font-size: 1.2rem;
+          }
+        }
       }
     }
 

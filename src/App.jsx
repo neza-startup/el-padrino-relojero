@@ -1,5 +1,5 @@
 import { faInstagram, faTiktok, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { /*  faLocationDot,  */ faPhone } from '@fortawesome/free-solid-svg-icons';
+import { /*  faLocationDot,  */ faPhone, faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -179,6 +179,22 @@ function App() {
     modalRefSettings.current?.open();
   }
 
+  const handleShare = () => {
+    const shareData = {
+      title: 'El Padrino Relojero',
+      text: 'Check out El Padrino Relojero!',
+      url: 'https://www.elpadrinorelojero.com',
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData)
+        .then(() => console.log('Shared successfully'))
+        .catch((error) => console.error('Error sharing:', error));
+    } else {
+      alert('Sharing is not supported in this browser.');
+    }
+  };
+
   return (
     <>
       <Analytics />
@@ -278,7 +294,7 @@ function App() {
           <div className={styles.socialLinks}>
             <a href="https://www.tiktok.com/@el.padrino.reloje" download="contact.vcf" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
               <FontAwesomeIcon icon={faTiktok} className={styles.icon} />
-              Tiktok
+              <span>Tiktok</span>
             </a>
             <a href="https://wa.me/527771204363" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
               <FontAwesomeIcon icon={faWhatsapp} className={styles.icon} />
@@ -292,6 +308,10 @@ function App() {
               <FontAwesomeIcon icon={faInstagram} className={styles.icon} />
               Instagram
             </a>
+            <span onClick={handleShare} className={styles.headerLink}>
+              <FontAwesomeIcon icon={faShare} className={styles.icon} />
+              Share
+            </span>
           </div>
 
           {/* <figure>

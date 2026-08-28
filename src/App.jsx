@@ -1,4 +1,4 @@
-import { faFacebook, faInstagram, faMedium, faTiktok, faTwitter, faWhatsapp, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faInstagram, faTiktok, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { faMobile, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Analytics } from '@vercel/analytics/react';
@@ -7,11 +7,10 @@ import { useEffect, useRef, useState } from 'react';
 import styles from '../styles/App.module.css';
 import './App.css';
 /* import contact from '../assets/contact.svg'; */
-import corncrunch from './assets/corncrunch.svg';
 /* import nezaBorder from '../assets/neza-logo-border.svg'; */
 /* import Modal from './Modal'; */
-import neza from './assets/neza-logo.svg';
 import profile from './assets/profile.png';
+/* import Card from './components/Card'; */
 
 function App() {
 
@@ -28,6 +27,37 @@ function App() {
       name: 'Accesorios',
       active: false
     },
+  ]);
+
+  const [relojes, setRelojes] = useState([
+    {
+      id: 1,
+      name: 'Reloj 1',
+      description: 'Descripción del Reloj 1',
+      image: 'https://via.placeholder.com/150',
+      link: 'https://www.tiktok.com/@elvisscochito'
+    },
+    {
+      id: 2,
+      name: 'Reloj 2',
+      description: 'Descripción del Reloj 2',
+      image: 'https://via.placeholder.com/150',
+      link: 'https://www.instagram.com/elvisscochito/'
+    },
+    {
+      id: 3,
+      name: 'Reloj 3',
+      description: 'Descripción del Reloj 3',
+      image: 'https://via.placeholder.com/150',
+      link: 'https://wa.me/527771395795'
+    },
+    {
+      id: 4,
+      name: 'Reloj 4',
+      description: 'Descripción del Reloj 4',
+      image: 'https://via.placeholder.com/150',
+      link: 'https://www.facebook.com/elvirodominguezsoriano/'
+    }
   ]);
 
   /* handle tab switching */
@@ -289,47 +319,15 @@ function App() {
           </a> */}
         </header>
 
-        <div className={styles.content}>
+        {/* <div className={styles.content}>
           {
-            tabs.find(tab => tab.active).name === 'Socials' && (
+            tabs.find(tab => tab.active).name === 'Relojes' && (
               <>
-                <a href="https://www.tiktok.com/@elvisscochito" target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                  <FontAwesomeIcon icon={faTiktok} className={styles.icon} />
-                  tiktok.com/@elvisscochito
-                </a>
-                <a href="https://www.instagram.com/elvisscochito/" target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                  <FontAwesomeIcon icon={faInstagram} className={styles.icon} />
-                  instagram.com/elvisscochito
-                </a>
-                <a href="https://wa.me/527771395795" target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                  <FontAwesomeIcon icon={faWhatsapp} className={styles.icon} />
-                  wa.me/527771395795
-                </a>
-                <a href="https://www.facebook.com/elvirodominguezsoriano/" target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                  <FontAwesomeIcon icon={faFacebook} className={styles.icon} />
-                  facebook.com/elvirodominguezsoriano
-                </a>
-                <a href="https://twitter.com/elvisscochito" target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                  <FontAwesomeIcon icon={faTwitter} className={styles.icon} />
-                  twitter.com/elvisscochito
-                </a>
-                <a href="https://www.youtube.com/@elvisscochito" target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                  <FontAwesomeIcon icon={faYoutube} className={styles.icon} />
-                  youtube.com/@elvisscochito
-                </a>
-                <a href="https://medium.com/@elvisscochito" target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                  <FontAwesomeIcon icon={faMedium} className={styles.icon} />
-                  medium.com/@elvisscochito
-                </a>
-                {/* <a href="https://dev.to/elvisscochito" target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                Dev.to
-              </a>
-              <a href="https://www.patreon.com/elvisscochito" target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                Patreon
-              </a>
-              <a href="https://www.buymeacoffee.com/elvisscochito" target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                Buy Me a Coffee
-              </a> */}
+                <div className={styles.cardsContainer}>
+                  {relojes.map((reloj) => (
+                    <Card key={reloj.id} />
+                  ))}
+                </div>
               </>
             )
           }
@@ -351,7 +349,7 @@ function App() {
               </>
             )
           }
-        </div>
+        </div> */}
 
         {/* <Modal ref={modalRef} /> */}
       </div>

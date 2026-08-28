@@ -1,5 +1,5 @@
 import { faInstagram, faTiktok, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faMobile, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { /*  faLocationDot,  */ faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -10,7 +10,11 @@ import './App.css';
 /* import nezaBorder from '../assets/neza-logo-border.svg'; */
 /* import Modal from './Modal'; */
 import profile from './assets/profile.png';
-/* import Card from './components/Card'; */
+import watch1 from './assets/watch1.png';
+import watch2 from './assets/watch2.png';
+import watch3 from './assets/watch3.png';
+import watch4 from './assets/watch4.png';
+import Card from './components/Card';
 
 function App() {
 
@@ -32,31 +36,35 @@ function App() {
   const [relojes, setRelojes] = useState([
     {
       id: 1,
-      name: 'Reloj 1',
+      name: 'Fuck 9 - 5',
       description: 'Descripción del Reloj 1',
-      image: 'https://via.placeholder.com/150',
-      link: 'https://www.tiktok.com/@elvisscochito'
+      image: watch1,
+      price: '$100',
+      /* link: 'https://www.tiktok.com/@elvisscochito' */
     },
     {
       id: 2,
-      name: 'Reloj 2',
+      name: 'Tissot PRX',
       description: 'Descripción del Reloj 2',
-      image: 'https://via.placeholder.com/150',
-      link: 'https://www.instagram.com/elvisscochito/'
+      image: watch2,
+      price: '$150',
+      /* link: 'https://www.instagram.com/elvisscochito/' */
     },
     {
       id: 3,
-      name: 'Reloj 3',
+      name: 'SEIKO Green',
       description: 'Descripción del Reloj 3',
-      image: 'https://via.placeholder.com/150',
-      link: 'https://wa.me/527771395795'
+      image: watch3,
+      price: '$200',
+      /* link: 'https://wa.me/527771395795' */
     },
     {
       id: 4,
-      name: 'Reloj 4',
+      name: 'SEIKO PRESAGE',
       description: 'Descripción del Reloj 4',
-      image: 'https://via.placeholder.com/150',
-      link: 'https://www.facebook.com/elvirodominguezsoriano/'
+      image: watch4,
+      price: '$250',
+      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
     }
   ]);
 
@@ -250,7 +258,7 @@ function App() {
 
           <div className={styles.bio}>
             <span className={styles.categoy}>
-              Relojes
+              Relojes{/*  Jewelry/watches */}
             </span>
             <span className={styles.tagline}>
               Cada hombre tiene su propio destino🌹
@@ -262,7 +270,7 @@ function App() {
               Envíos Gratis ✈️
             </span>
             <div className={styles.location}>
-              <FontAwesomeIcon icon={faMobile} className={styles.icon} />
+              {/* <FontAwesomeIcon icon={faLocationDot} className={styles.icon} /> */}
               CDMX 🇲🇽
             </div>
           </div>
@@ -319,19 +327,19 @@ function App() {
           </a> */}
         </header>
 
-        {/* <div className={styles.content}>
+        <div className={styles.content}>
           {
             tabs.find(tab => tab.active).name === 'Relojes' && (
               <>
                 <div className={styles.cardsContainer}>
                   {relojes.map((reloj) => (
-                    <Card key={reloj.id} />
+                    <Card key={reloj.id} name={reloj.name} description={reloj.description} image={reloj.image} price={reloj.price} />
                   ))}
                 </div>
               </>
             )
           }
-          {
+          {/* {
             tabs.find(tab => tab.active).name === 'Projects' && (
               <>
                 <a href="https://www.nezastartup.com/link-in-bio" target="_blank" rel="noopener noreferrer" className={styles.linkButtonProjects}>
@@ -348,13 +356,14 @@ function App() {
                 </a>
               </>
             )
-          }
-        </div> */}
+          } */}
+        </div>
 
         {/* <Modal ref={modalRef} /> */}
       </div>
       <footer className={styles.footer}>
-        <span className={styles.footerText}>Copyright &#169; {new Date().getFullYear()}. El Padrino Relojero.</span>
+        <span className={styles.footerText}>Copyright &#169; {new Date().getFullYear()}. El Padrino Relojero. Todos los derechos reservados.{/* </span> */}
+          {/* <span className={styles.footerText}> */} Desarrollado por <a href="https://www.nezastartup.com" target="_blank" rel="noopener noreferrer" className={styles.link}>Neza Startup</a></span>
       </footer>
     </>
   )

@@ -33,7 +33,7 @@ function App() {
     },
   ]);
 
-  const [relojes, setRelojes] = useState([
+  const watchCatalog = [
     {
       id: 1,
       name: 'Fuck 9 - 5',
@@ -41,6 +41,9 @@ function App() {
       image: watch1,
       price: '$100',
       /* link: 'https://www.tiktok.com/@elvisscochito' */
+      brand: 'Brand 1',
+      bestSeller: true,
+      inStock: true
     },
     {
       id: 2,
@@ -49,6 +52,9 @@ function App() {
       image: watch2,
       price: '$150',
       /* link: 'https://www.instagram.com/elvisscochito/' */
+      brand: 'Brand 1',
+      bestSeller: false,
+      inStock: true
     },
     {
       id: 3,
@@ -57,6 +63,9 @@ function App() {
       image: watch3,
       price: '$200',
       /* link: 'https://wa.me/527771395795' */
+      brand: 'Brand 2',
+      bestSeller: true,
+      inStock: false
     },
     {
       id: 4,
@@ -65,8 +74,47 @@ function App() {
       image: watch4,
       price: '$250',
       /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
+      brand: 'Brand 2',
+      bestSeller: false,
+      inStock: true
     }
-  ]);
+  ];
+
+  const [currentFilter, setCurrentFilter] = useState('all');
+  const [watches, setWatches] = useState(watchCatalog);
+
+  const filterWatches = (filter) => {
+    setCurrentFilter(filter);
+    if (filter === 'all') {
+      setWatches(watchCatalog);
+    } else if (filter === 'bestSeller') {
+      const filteredWatches = watchCatalog.filter((watch) => watch.bestSeller === true);
+      setWatches(filteredWatches);
+    } else if (filter === 'inStock') {
+      const filteredWatches = watchCatalog.filter((watch) => watch.inStock === true);
+      setWatches(filteredWatches);
+    } else if (filter === 'outOfStock') {
+      const filteredWatches = watchCatalog.filter((watch) => watch.inStock === false);
+      setWatches(filteredWatches);
+    } else {
+      const filteredWatches = watchCatalog.filter((watch) => watch.brand === filter);
+      setWatches(filteredWatches);
+    }
+  };
+
+  const orderWatchesByPrice = (order) => {
+    if (order === 'none') {
+      filterWatches(currentFilter);
+      return;
+    }
+
+    const sortedWatches = [...watches].sort((a, b) => {
+      const priceA = parseFloat(a.price.replace('$', ''));
+      const priceB = parseFloat(b.price.replace('$', ''));
+      return order === 'asc' ? priceA - priceB : priceB - priceA;
+    });
+    setWatches(sortedWatches);
+  };
 
   /* handle tab switching */
   /* const handleTabClick = (id) => {
@@ -347,12 +395,39 @@ function App() {
           </a> */}
         </header>
 
+        {/* select filter by watch Brand */}
+        <div className={styles.filterContainer}>
+          <span className={styles.filterLabel}>Filtrar por:</span>
+          <select className={styles.filterSelect} onChange={(e) => filterWatches(e.target.value)}>
+            <option value="all">Todos</option>
+            <option value="bestSeller">Más Vendidos</option>
+            <optgroup label="Marcas">
+              <option value="Brand 1">Brand 1</option>
+              <option value="Brand 2">Brand 2</option>
+            </optgroup>
+            <optgroup label="Disponibilidad">
+              <option value="inStock">En Stock</option>
+              <option value="outOfStock">Agotados</option>
+            </optgroup>
+          </select>
+        </div>
+
+        {/* select order by price */}
+        <div className={styles.orderContainer}>
+          <span className={styles.orderLabel}>Ordenar por precio:</span>
+          <select className={styles.orderSelect} onChange={(e) => orderWatchesByPrice(e.target.value)}>
+            <option value="none">Ninguno</option>
+            <option value="asc">Menor a Mayor</option>
+            <option value="desc">Mayor a Menor</option>
+          </select>
+        </div>
+
         <div className={styles.content}>
           {
             tabs.find(tab => tab.active).name === 'Relojes' && (
               <>
                 <div className={styles.cardsContainer}>
-                  {relojes.map((reloj) => (
+                  {watches.map((reloj) => (
                     <Card key={reloj.id} name={reloj.name} description={reloj.description} image={reloj.image} price={reloj.price} />
                   ))}
                 </div>
@@ -380,7 +455,7 @@ function App() {
         </div>
 
         {/* <Modal ref={modalRef} /> */}
-      </div>
+      </div >
       <footer className={styles.footer}>
         <span className={styles.footerText}>Copyright &#169; {new Date().getFullYear()}. El Padrino Relojero. Todos los derechos reservados.{/* </span> */}
           {/* <span className={styles.footerText}> */} Desarrollado por <a href="https://www.nezastartup.com" target="_blank" rel="noopener noreferrer" className={styles.link}>Neza Startup</a></span>

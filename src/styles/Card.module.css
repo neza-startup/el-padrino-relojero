@@ -26,6 +26,9 @@ div.card {
       height: auto;
       border-radius: 0.5rem;
       /* margin-bottom: 1rem; */
+      /* aspect-ratio: 1/1;
+      object-fit: cover;
+      object-position: center; */
     }
 
     figcaption.price {
@@ -51,6 +54,15 @@ div.card {
     margin-bottom: 0.5rem;
   } */
 
+  p.description {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #666;
+    text-align: center;
+    /* margin-bottom: 1rem; */
+  }
+
   a {
     display: inline-block;
     /* margin-top: 1rem; */
@@ -66,14 +78,60 @@ div.card {
       background-color: #16A34A;
     }
   }
+
+  button.shareButton {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: light-dark(#f8f9fa, #1f2937);
+    color: light-dark(#333, #fff);
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+
+    &:hover {
+      background-color: light-dark(#e2e8f0, #374151);
+      /* #2563EB */
+      ;
+    }
+  }
 }
 
-div.card:focus {
-  outline: 3px solid red;
+/* div */
+/* .card:target { */
+/* outline: 3px solid red;
   outline-offset: 5px;
   border-radius: 12px;
   outline: 5px solid red !important;
-  background: yellow !important;
+  background: yellow !important; */
+/* outline: 5px solid #007bff !important;
+  outline-offset: 5px;
+} */
+
+div.card.highlighted {
+  outline: 5px solid #007bff !important;
+  /* outline-offset: 5px; */
+
+  /* animation */
+  animation: highlightAnimation 2s ease-in-out infinite;
+}
+
+@keyframes highlightAnimation {
+  0% {
+    outline: 5px solid #007bff;
+    outline-offset: 2px;
+  }
+
+  50% {
+    outline: 5px solid #007bff;
+    outline-offset: 6px;
+  }
+
+  100% {
+    outline: 5px solid #007bff;
+    outline-offset: 2px;
+  }
 }
 
 /* @media only screen and (min-width: 768px) {

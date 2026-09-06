@@ -35,7 +35,7 @@ function App() {
 
   const watchCatalog = [
     {
-      id: 1,
+      id: "fuck-9-5",
       name: 'Fuck 9 - 5',
       description: 'Descripción del Reloj 1',
       image: watch1,
@@ -81,7 +81,7 @@ function App() {
     {
       id: 5,
       name: 'Fuck 9 - 5',
-      description: 'Descripción del Reloj 1',
+      description: 'Descripción del Reloj 5',
       image: watch1,
       price: '$100',
       /* link: 'https://www.tiktok.com/@elvisscochito' */
@@ -92,7 +92,7 @@ function App() {
     {
       id: 6,
       name: 'Tissot PRX',
-      description: 'Descripción del Reloj 2',
+      description: 'Descripción del Reloj 6',
       image: watch2,
       price: '$150',
       /* link: 'https://www.instagram.com/elvisscochito/' */
@@ -103,7 +103,7 @@ function App() {
     {
       id: 7,
       name: 'SEIKO Green',
-      description: 'Descripción del Reloj 3',
+      description: 'Descripción del Reloj 7',
       image: watch3,
       price: '$200',
       /* link: 'https://wa.me/527771395795' */
@@ -114,7 +114,7 @@ function App() {
     {
       id: 8,
       name: 'SEIKO PRESAGE',
-      description: 'Descripción del Reloj 4',
+      description: 'Descripción del Reloj 8',
       image: watch4,
       price: '$250',
       /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
@@ -124,7 +124,7 @@ function App() {
     }, {
       id: 9,
       name: 'Fuck 9 - 5',
-      description: 'Descripción del Reloj 1',
+      description: 'Descripción del Reloj 9',
       image: watch1,
       price: '$100',
       /* link: 'https://www.tiktok.com/@elvisscochito' */
@@ -135,7 +135,7 @@ function App() {
     {
       id: 10,
       name: 'Tissot PRX',
-      description: 'Descripción del Reloj 2',
+      description: 'Descripción del Reloj 10',
       image: watch2,
       price: '$150',
       /* link: 'https://www.instagram.com/elvisscochito/' */
@@ -146,7 +146,7 @@ function App() {
     {
       id: 11,
       name: 'SEIKO Green',
-      description: 'Descripción del Reloj 3',
+      description: 'Descripción del Reloj 11',
       image: watch3,
       price: '$200',
       /* link: 'https://wa.me/527771395795' */
@@ -157,7 +157,7 @@ function App() {
     {
       id: 12,
       name: 'SEIKO PRESAGE',
-      description: 'Descripción del Reloj 4',
+      description: 'Descripción del Reloj 12',
       image: watch4,
       price: '$250',
       /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
@@ -168,39 +168,66 @@ function App() {
   ];
 
   const [currentFilter, setCurrentFilter] = useState('all');
+  const [currentOrder, setCurrentOrder] = useState('none');
   const [watches, setWatches] = useState(watchCatalog);
+
+  const getFilteredAndSortedWatches = (filter, order) => {
+    let result;
+
+    if (filter === 'all') {
+      result = watchCatalog;
+    } else if (filter === 'bestSeller') {
+      result = watchCatalog.filter((watch) => watch.bestSeller === true);
+    } else if (filter === 'inStock') {
+      result = watchCatalog.filter((watch) => watch.inStock === true);
+    } else if (filter === 'outOfStock') {
+      result = watchCatalog.filter((watch) => watch.inStock === false);
+    } else {
+      result = watchCatalog.filter((watch) => watch.brand === filter);
+    }
+
+    if (order === 'asc') {
+      result = [...result].sort((a, b) => {
+        const priceA = parseFloat(a.price.replace('$', ''));
+        const priceB = parseFloat(b.price.replace('$', ''));
+
+        return priceA - priceB;
+      });
+    }
+
+    if (order === 'desc') {
+      result = [...result].sort((a, b) => {
+        const priceA = parseFloat(a.price.replace('$', ''));
+        const priceB = parseFloat(b.price.replace('$', ''));
+
+        return priceB - priceA;
+      });
+    }
+
+    return result;
+  };
 
   const filterWatches = (filter) => {
     setCurrentFilter(filter);
-    if (filter === 'all') {
-      setWatches(watchCatalog);
-    } else if (filter === 'bestSeller') {
-      const filteredWatches = watchCatalog.filter((watch) => watch.bestSeller === true);
-      setWatches(filteredWatches);
-    } else if (filter === 'inStock') {
-      const filteredWatches = watchCatalog.filter((watch) => watch.inStock === true);
-      setWatches(filteredWatches);
-    } else if (filter === 'outOfStock') {
-      const filteredWatches = watchCatalog.filter((watch) => watch.inStock === false);
-      setWatches(filteredWatches);
-    } else {
-      const filteredWatches = watchCatalog.filter((watch) => watch.brand === filter);
-      setWatches(filteredWatches);
-    }
+
+    const result = getFilteredAndSortedWatches(
+      filter,
+      currentOrder
+    );
+
+    setWatches(result);
   };
 
-  const orderWatchesByPrice = (order) => {
-    if (order === 'none') {
-      filterWatches(currentFilter);
-      return;
-    }
 
-    const sortedWatches = [...watches].sort((a, b) => {
-      const priceA = parseFloat(a.price.replace('$', ''));
-      const priceB = parseFloat(b.price.replace('$', ''));
-      return order === 'asc' ? priceA - priceB : priceB - priceA;
-    });
-    setWatches(sortedWatches);
+  const orderWatchesByPrice = (order) => {
+    setCurrentOrder(order);
+
+    const result = getFilteredAndSortedWatches(
+      currentFilter,
+      order
+    );
+
+    setWatches(result);
   };
 
   /* handle tab switching */
@@ -279,7 +306,7 @@ function App() {
   }, []);
 
   // 🔹 Cuando cambia la tab activa → actualizar URL
-  useEffect(() => {
+  /* useEffect(() => {
     const activeTab = tabs.find((tab) => tab.active);
     if (!activeTab) return;
 
@@ -289,7 +316,7 @@ function App() {
     if (currentTab !== activeTab.name) {
       window.history.pushState(null, "", `?tab=${activeTab.name}`);
     }
-  }, [tabs]);
+  }, [tabs]); */
 
   /*  handle tab switching */
   const handleTabClick = (id) => {
@@ -347,6 +374,44 @@ function App() {
 
     setTimeout(scrollToWatch, 300);
   }, [watches]);
+
+  useEffect(() => {
+    const activeTab = tabs.find((tab) => tab.active);
+
+    if (!activeTab) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const currentTab = params.get("tab");
+
+    if (currentTab !== activeTab.name) {
+      window.history.pushState(
+        null,
+        "",
+        `?tab=${activeTab.name}${window.location.hash}`
+      );
+    }
+  }, [tabs]);
+
+  // Validar el hash al cargar la página
+  useEffect(() => {
+    const hash = window.location.hash;
+
+    if (!hash.startsWith('#watch-')) return;
+
+    const watchId = hash.replace('#watch-', '');
+
+    const watchExists = watchCatalog.some(
+      (watch) => String(watch.id) === watchId
+    );
+
+    if (!watchExists) {
+      window.history.replaceState(
+        null,
+        '',
+        `${window.location.pathname}?tab=Relojes`
+      );
+    }
+  }, []);
 
   return (
     <>
@@ -504,7 +569,7 @@ function App() {
         <div className={styles.filterAndOrderContainer}>
           <div className={styles.filterContainer}>
             <label htmlFor="filterSelect" className={styles.filterLabel}>Filtrar por:</label>
-            <select id='filterSelect' name='filterSelect' className={styles.filterSelect} onChange={(e) => filterWatches(e.target.value)}>
+            <select id='filterSelect' name='filterSelect' className={styles.filterSelect} value={currentFilter} onChange={(e) => filterWatches(e.target.value)}>
               <option value="all">Todos</option>
               <option value="bestSeller">Más Vendidos</option>
               <optgroup label="Marcas">
@@ -521,7 +586,7 @@ function App() {
           {/* select order by price */}
           <div className={styles.orderContainer}>
             <label htmlFor="orderSelect" className={styles.orderLabel}>Ordenar por precio:</label>
-            <select id='orderSelect' name='orderSelect' className={styles.orderSelect} onChange={(e) => orderWatchesByPrice(e.target.value)}>
+            <select id='orderSelect' name='orderSelect' className={styles.orderSelect} value={currentOrder} onChange={(e) => orderWatchesByPrice(e.target.value)}>
               <option value="none">Ninguno</option>
               <option value="asc">Menor a Mayor</option>
               <option value="desc">Mayor a Menor</option>

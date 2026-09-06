@@ -3,9 +3,11 @@ import { faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from "../styles/Card.module.css";
 
-const Card = ({ id, name, /* description, */ image, price }) => {
+const Card = ({ id, name, description, image, price }) => {
 
   console.log("Card props:", { id, name, image, price });
+
+  const isHighlighted = window.location.hash === `#watch-${id}`;
 
   const handleShare = () => {
     const url = `${window.location.origin}${window.location.pathname}?tab=Relojes#watch-${id}`;
@@ -28,17 +30,25 @@ const Card = ({ id, name, /* description, */ image, price }) => {
   };
 
   return (
-    <div className={styles.card} id={`watch-${id}`}>
+    <div className={`${styles.card} ${isHighlighted ? styles.highlighted : ''
+      }`}
+      id={`watch-${id}`}>
       {/* <p>{description}</p> */}
+      <h4>{name}</h4>
       <figure className={styles.figure}>
         <img src={image} alt={name} />
         <figcaption className={styles.price}>{price}</figcaption>
       </figure>
+      {/* description */}
+
+      <p className={styles.description}>
+        {description}
+      </p>
+
       <a href={`https://wa.me/527771395795?text=Hola,%20estoy%20interesado%20en%20el%20reloj%20${name}`} target="_blank" rel="noopener noreferrer">
         <FontAwesomeIcon icon={faWhatsapp} className={styles.icon} />
         ¡Lo quiero!
       </a>
-      <h4>{name}</h4>
       <button className={styles.shareButton} onClick={handleShare}>
         <FontAwesomeIcon icon={faShare} className={styles.icon} />
         Compartir

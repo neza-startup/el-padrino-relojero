@@ -10,6 +10,7 @@ import './App.css';
 /* import nezaBorder from '../assets/neza-logo-border.svg'; */
 /* import Modal from './Modal'; */
 import profile from './assets/profile.png';
+import profile_accesorios from './assets/profile_accesorios.jpg';
 import watch1 from './assets/watch1.png';
 import watch2 from './assets/watch2.png';
 import watch3 from './assets/watch3.png';
@@ -281,6 +282,7 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopstate);
   }, []); */
 
+  /* when the URL changes and on mount, update the active tab */
   const setActiveTabFromURL = () => {
     const params = new URLSearchParams(window.location.search);
     const tabName = params.get("tab") || "Relojes";
@@ -293,7 +295,7 @@ function App() {
     );
   };
 
-  // 🔹 Al montar: leer URL + escuchar back / forward
+  /* on mount read the URL and when the user navigates back or forward in the browser, update the active tab */
   useEffect(() => {
     setActiveTabFromURL();
 
@@ -304,7 +306,7 @@ function App() {
     };
   }, []);
 
-  // 🔹 Cuando cambia la tab activa → actualizar URL
+  /* when the active tab changes, update the URL */
   /* useEffect(() => {
     const activeTab = tabs.find((tab) => tab.active);
     if (!activeTab) return;
@@ -327,6 +329,7 @@ function App() {
     );
   };
 
+  /* update the URL when the active tab changes */
   useEffect(() => {
     const activeTab = tabs.find((tab) => tab.active);
 
@@ -412,12 +415,14 @@ function App() {
     modalRefSettings.current?.open();
   }
 
+  const activeTab = tabs.find((tab) => tab.active) || tabs[0];
+
   return (
     <>
       <Analytics />
       <SpeedInsights />
       <nav className={styles.navbar}>
-        <h2 className={styles.navbarTitle}>El Padrino Relojero</h2>
+        <h2 className={styles.navbarTitle}>El Padrino {activeTab.name}</h2>
       </nav>
 
       <div className={styles.switchTab}>
@@ -437,15 +442,22 @@ function App() {
       <div className={styles.linkInBio}>
         {/* TODO: ADD Modal like Instagram Stories */}
         <figure className={styles.profileFigure}>
-          <img src={profile} alt="My Profile Picture" className={styles.profileImage} onClick={handleModal} />
+          <img src={tabs.find(tab => tab.active).name === 'Relojes' ? profile : profile_accesorios} alt="My Profile Picture" className={styles.profileImage} onClick={handleModal} />
           {/* <div className={styles.onlineStatus}> */}
           {/* <span className={styles.statusIndicator}></span> */}
           {/* <span>Online</span> */}
           {/* </div> */}
         </figure>
         <header className={styles.header}>
-          <h1 className={styles.heading}>El Padrino Relojero</h1>
-          <span className={styles.username}>@elpadrino_relojero</span>
+          <h1 className={styles.heading}>El Padrino {activeTab.name}</h1>
+          <span className={styles.username}>
+            {
+              tabs.find(tab => tab.active).name === 'Relojes' && ('@elpadrino_relojero')
+            }
+            {
+              tabs.find(tab => tab.active).name === 'Accesorios' && ('@elpadrino_accessorios')
+            }
+          </span>
 
           {/* <div className={styles.description}>
             <span className={styles.location}>
@@ -473,39 +485,93 @@ function App() {
           {/* </div> */}
 
           <div className={styles.stats}>
-            <div className={styles.stat}>
-              <span>5K+</span>
-              <span>Ventas</span>
-            </div>
+            {
+              tabs.find(tab => tab.active).name === 'Relojes' && (
+                <>
+                  <div className={styles.stat}>
+                    <span>5K+</span>
+                    <span>Ventas</span>
+                  </div>
 
-            <div className={styles.stat}>
-              <span>2k+</span>
-              <span>Clientes</span>
-            </div>
+                  <div className={styles.stat}>
+                    <span>2k+</span>
+                    <span>Clientes</span>
+                  </div>
 
-            <div className={styles.stat}>
-              <span>30+</span>
-              <span>Modelos</span>
-            </div>
+                  <div className={styles.stat}>
+                    <span>30+</span>
+                    <span>Modelos</span>
+                  </div>
+                </>
+              )
+            }
+            {
+              tabs.find(tab => tab.active).name === 'Accesorios' && (
+                <>
+                  <div className={styles.stat}>
+                    <span>1K+</span>
+                    <span>Ventas</span>
+                  </div>
+
+                  <div className={styles.stat}>
+                    <span>500+</span>
+                    <span>Clientes</span>
+                  </div>
+
+                  <div className={styles.stat}>
+                    <span>20+</span>
+                    <span>Artículos</span>
+                  </div>
+                </>
+              )
+            }
           </div>
 
           <div className={styles.bio}>
-            <span className={styles.categoy}>
-              Relojes{/*  Jewelry/watches */}
-            </span>
-            <span className={styles.tagline}>
-              Cada hombre tiene su propio destino🌹
-            </span>
-            <span className={styles.owner}>
-              By: David Juárez el Padrino ⌚️
-            </span>
-            <span>
-              Envíos Gratis ✈️
-            </span>
-            <div className={styles.location}>
-              {/* <FontAwesomeIcon icon={faLocationDot} className={styles.icon} /> */}
-              CDMX 🇲🇽
-            </div>
+            {
+              tabs.find(tab => tab.active).name === 'Relojes' && (
+                <>
+                  <span className={styles.categoy}>
+                    Relojes{/*  Jewelry/watches */}
+                  </span>
+                  <span className={styles.tagline}>
+                    Cada hombre tiene su propio destino🌹
+                  </span>
+                  <span className={styles.owner}>
+                    By: David Juárez el Padrino ⌚️
+                  </span>
+                  <span>
+                    Envíos Gratis ✈️
+                  </span>
+                  <div className={styles.location}>
+                    {/* <FontAwesomeIcon icon={faLocationDot} className={styles.icon} /> */}
+                    CDMX 🇲🇽
+                  </div>
+                </>
+              )
+            }
+            {
+              tabs.find(tab => tab.active).name === 'Accesorios' && (
+                <>
+                  <span className={styles.categoy}>
+                    Accesorios 💼{/*  Jewelry/watches */}
+                  </span>
+                  <span className={styles.tagline}>
+                    Madrinas y Padrinos ❤️
+                  </span>
+                  <span className={styles.owner}>
+                    By: David Juárez el Padrino 🌹
+                  </span>
+                  {/* <span>
+                    Envíos Gratis ✈️
+                  </span> */}
+                  <div className={styles.location}>
+                    {/* <FontAwesomeIcon icon={faLocationDot} className={styles.icon} /> */}
+                    CDMX 🇲🇽
+                  </div>
+                </>
+              )
+            }
           </div>
 
           <div className={styles.socialLinks}>
@@ -627,6 +693,11 @@ function App() {
 
         {/* <Modal ref={modalRef} /> */}
       </div >
+
+      <a className={styles.faWhatsappButton} href='https://wa.me/527771204363' target='_blank' rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faWhatsapp} className={styles.faWhatsappIcon} />
+      </a>
+
       <footer className={styles.footer}>
         <span className={styles.footerText}>Copyright &#169; {new Date().getFullYear()}. El Padrino Relojero. Todos los derechos reservados.{/* </span> */}
           {/* <span className={styles.footerText}> */} Desarrollado por <a href="https://www.nezastartup.com" target="_blank" rel="noopener noreferrer" className={styles.link}>Neza Startup</a></span>

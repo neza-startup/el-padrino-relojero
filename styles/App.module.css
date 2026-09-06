@@ -107,7 +107,7 @@ div.switchTab {
     background-color: transparent;
     border: none;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 600;
     color: light-dark(var(--details), var(--text-aux-color));
     cursor: pointer;
     border-bottom: 2px solid transparent;
@@ -117,6 +117,7 @@ div.switchTab {
     &.activeTab {
       border-bottom: 2px solid light-dark(#000000, #FFFFFF);
       color: light-dark(#000000, #FFFFFF);
+      font-weight: 700;
     }
 
     @media (hover: hover) and (pointer: fine) {

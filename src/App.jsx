@@ -218,7 +218,6 @@ function App() {
     setWatches(result);
   };
 
-
   const orderWatchesByPrice = (order) => {
     setCurrentOrder(order);
 
@@ -284,7 +283,7 @@ function App() {
 
   const setActiveTabFromURL = () => {
     const params = new URLSearchParams(window.location.search);
-    const tabName = params.get("tab") || "Socials";
+    const tabName = params.get("tab") || "Relojes";
 
     setTabs((prevTabs) =>
       prevTabs.map((tab) => ({
@@ -328,53 +327,6 @@ function App() {
     );
   };
 
-  const handleModal = () => {
-    modalRef.current?.open(
-      "Welcome",
-      "Hi there! Thanks for checking out my Link In Bio page. Feel free to explore my socials and projects. If you'd like to get in touch, don't hesitate to reach out via email, phone or WhatsApp. Have a great day!"
-    );
-  }
-
-  const openSettings = () => {
-    /* console.log("Open Settings Modal"); */
-
-    modalRefSettings.current?.open();
-  }
-
-  const handleShare = () => {
-    const shareData = {
-      title: 'El Padrino Relojero',
-      text: 'Check out El Padrino Relojero!',
-      url: 'https://www.elpadrinorelojero.com',
-    };
-
-    if (navigator.share) {
-      navigator.share(shareData)
-        .then(() => console.log('Shared successfully'))
-        .catch((error) => console.error('Error sharing:', error));
-    } else {
-      alert('Sharing is not supported in this browser.');
-    }
-  };
-
-  /* Scroll to a specific watch when the URL hash changes */
-  useEffect(() => {
-    if (!window.location.hash) return;
-
-    const scrollToWatch = () => {
-      const element = document.querySelector(window.location.hash);
-
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        });
-      }
-    };
-
-    setTimeout(scrollToWatch, 300);
-  }, [watches]);
-
   useEffect(() => {
     const activeTab = tabs.find((tab) => tab.active);
 
@@ -392,7 +344,7 @@ function App() {
     }
   }, [tabs]);
 
-  // Validar el hash al cargar la página
+  /* validate if the watch id in the URL hash exists in the watchCatalog, if not, remove the hash from the URL */
   useEffect(() => {
     const hash = window.location.hash;
 
@@ -413,6 +365,53 @@ function App() {
     }
   }, []);
 
+  /* Scroll to a specific watch when the URL hash changes */
+  useEffect(() => {
+    if (!window.location.hash) return;
+
+    const scrollToWatch = () => {
+      const element = document.querySelector(window.location.hash);
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    };
+
+    setTimeout(scrollToWatch, 300);
+  }, [watches]);
+
+  const handleShare = () => {
+    const shareData = {
+      title: 'El Padrino Relojero',
+      text: 'Check out El Padrino Relojero!',
+      url: 'https://www.elpadrinorelojero.com',
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData)
+        .then(() => console.log('Shared successfully'))
+        .catch((error) => console.error('Error sharing:', error));
+    } else {
+      alert('Sharing is not supported in this browser.');
+    }
+  };
+
+  const handleModal = () => {
+    modalRef.current?.open(
+      "Welcome",
+      "Hi there! Thanks for checking out my Link In Bio page. Feel free to explore my socials and projects. If you'd like to get in touch, don't hesitate to reach out via email, phone or WhatsApp. Have a great day!"
+    );
+  }
+
+  const openSettings = () => {
+    /* console.log("Open Settings Modal"); */
+
+    modalRefSettings.current?.open();
+  }
+
   return (
     <>
       <Analytics />
@@ -421,7 +420,7 @@ function App() {
         <h2 className={styles.navbarTitle}>El Padrino Relojero</h2>
       </nav>
 
-      {/* <div className={styles.switchTab}>
+      <div className={styles.switchTab}>
         {
           tabs.map((tab) => (
             <button
@@ -433,7 +432,7 @@ function App() {
             </button>
           ))
         }
-      </div> */}
+      </div>
 
       <div className={styles.linkInBio}>
         {/* TODO: ADD Modal like Instagram Stories */}

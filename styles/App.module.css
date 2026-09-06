@@ -407,6 +407,53 @@ div.linkInBio {
     } */
   }
 
+  div.filterAndOrderContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 24rem;
+    background-color: light-dark(#F5F5F5, #1E1E1E);
+    padding: 0.5rem 1rem;
+    border: 1px solid light-dark(var(--details), var(--text-aux-color));
+    border-radius: 0.5rem;
+
+    /* label.filterLabel,
+    label.orderLabel {
+      font-size: 1rem;
+      font-weight: bold;
+      color: light-dark(var(--details), var(--text-aux-color));
+      text-align: center;
+      background-color: red;
+      min-width: 100% !important;
+    } */
+
+    select.filterSelect,
+    select.orderSelect {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      background-color: light-dark(#F5F5F5, #1E1E1E);
+      color: light-dark(var(--details), var(--text-aux-color));
+      border: 1px solid light-dark(var(--details), var(--text-aux-color));
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      /* background-color: light-dark(#FFFFFF, #1E1E1E); */
+
+      option {
+        /* background-color: light-dark(#FFFFFF, #1E1E1E); */
+        color: light-dark(var(--details), var(--text-aux-color));
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+  }
+
   div.content {
     display: flex;
     flex-direction: column;

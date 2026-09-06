@@ -10,6 +10,8 @@ div.card {
   transition: box-shadow 0.3s ease;
   gap: 0.5rem;
 
+
+
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
@@ -64,6 +66,14 @@ div.card {
       background-color: #16A34A;
     }
   }
+}
+
+div.card:focus {
+  outline: 3px solid red;
+  outline-offset: 5px;
+  border-radius: 12px;
+  outline: 5px solid red !important;
+  background: yellow !important;
 }
 
 /* @media only screen and (min-width: 768px) {

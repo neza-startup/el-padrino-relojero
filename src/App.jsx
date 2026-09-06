@@ -77,6 +77,93 @@ function App() {
       brand: 'Brand 2',
       bestSeller: false,
       inStock: true
+    },
+    {
+      id: 5,
+      name: 'Fuck 9 - 5',
+      description: 'Descripción del Reloj 1',
+      image: watch1,
+      price: '$100',
+      /* link: 'https://www.tiktok.com/@elvisscochito' */
+      brand: 'Brand 1',
+      bestSeller: true,
+      inStock: true
+    },
+    {
+      id: 6,
+      name: 'Tissot PRX',
+      description: 'Descripción del Reloj 2',
+      image: watch2,
+      price: '$150',
+      /* link: 'https://www.instagram.com/elvisscochito/' */
+      brand: 'Brand 1',
+      bestSeller: false,
+      inStock: true
+    },
+    {
+      id: 7,
+      name: 'SEIKO Green',
+      description: 'Descripción del Reloj 3',
+      image: watch3,
+      price: '$200',
+      /* link: 'https://wa.me/527771395795' */
+      brand: 'Brand 2',
+      bestSeller: true,
+      inStock: false
+    },
+    {
+      id: 8,
+      name: 'SEIKO PRESAGE',
+      description: 'Descripción del Reloj 4',
+      image: watch4,
+      price: '$250',
+      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
+      brand: 'Brand 2',
+      bestSeller: false,
+      inStock: true
+    }, {
+      id: 9,
+      name: 'Fuck 9 - 5',
+      description: 'Descripción del Reloj 1',
+      image: watch1,
+      price: '$100',
+      /* link: 'https://www.tiktok.com/@elvisscochito' */
+      brand: 'Brand 1',
+      bestSeller: true,
+      inStock: true
+    },
+    {
+      id: 10,
+      name: 'Tissot PRX',
+      description: 'Descripción del Reloj 2',
+      image: watch2,
+      price: '$150',
+      /* link: 'https://www.instagram.com/elvisscochito/' */
+      brand: 'Brand 1',
+      bestSeller: false,
+      inStock: true
+    },
+    {
+      id: 11,
+      name: 'SEIKO Green',
+      description: 'Descripción del Reloj 3',
+      image: watch3,
+      price: '$200',
+      /* link: 'https://wa.me/527771395795' */
+      brand: 'Brand 2',
+      bestSeller: true,
+      inStock: false
+    },
+    {
+      id: 12,
+      name: 'SEIKO PRESAGE',
+      description: 'Descripción del Reloj 4',
+      image: watch4,
+      price: '$250',
+      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
+      brand: 'Brand 2',
+      bestSeller: false,
+      inStock: true
     }
   ];
 
@@ -243,6 +330,24 @@ function App() {
     }
   };
 
+  /* Scroll to a specific watch when the URL hash changes */
+  useEffect(() => {
+    if (!window.location.hash) return;
+
+    const scrollToWatch = () => {
+      const element = document.querySelector(window.location.hash);
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    };
+
+    setTimeout(scrollToWatch, 300);
+  }, [watches]);
+
   return (
     <>
       <Analytics />
@@ -396,30 +501,32 @@ function App() {
         </header>
 
         {/* select filter by watch Brand */}
-        <div className={styles.filterContainer}>
-          <span className={styles.filterLabel}>Filtrar por:</span>
-          <select className={styles.filterSelect} onChange={(e) => filterWatches(e.target.value)}>
-            <option value="all">Todos</option>
-            <option value="bestSeller">Más Vendidos</option>
-            <optgroup label="Marcas">
-              <option value="Brand 1">Brand 1</option>
-              <option value="Brand 2">Brand 2</option>
-            </optgroup>
-            <optgroup label="Disponibilidad">
-              <option value="inStock">En Stock</option>
-              <option value="outOfStock">Agotados</option>
-            </optgroup>
-          </select>
-        </div>
+        <div className={styles.filterAndOrderContainer}>
+          <div className={styles.filterContainer}>
+            <label htmlFor="filterSelect" className={styles.filterLabel}>Filtrar por:</label>
+            <select id='filterSelect' name='filterSelect' className={styles.filterSelect} onChange={(e) => filterWatches(e.target.value)}>
+              <option value="all">Todos</option>
+              <option value="bestSeller">Más Vendidos</option>
+              <optgroup label="Marcas">
+                <option value="Brand 1">Brand 1</option>
+                <option value="Brand 2">Brand 2</option>
+              </optgroup>
+              <optgroup label="Disponibilidad">
+                <option value="inStock">En Stock</option>
+                <option value="outOfStock">Agotados</option>
+              </optgroup>
+            </select>
+          </div>
 
-        {/* select order by price */}
-        <div className={styles.orderContainer}>
-          <span className={styles.orderLabel}>Ordenar por precio:</span>
-          <select className={styles.orderSelect} onChange={(e) => orderWatchesByPrice(e.target.value)}>
-            <option value="none">Ninguno</option>
-            <option value="asc">Menor a Mayor</option>
-            <option value="desc">Mayor a Menor</option>
-          </select>
+          {/* select order by price */}
+          <div className={styles.orderContainer}>
+            <label htmlFor="orderSelect" className={styles.orderLabel}>Ordenar por precio:</label>
+            <select id='orderSelect' name='orderSelect' className={styles.orderSelect} onChange={(e) => orderWatchesByPrice(e.target.value)}>
+              <option value="none">Ninguno</option>
+              <option value="asc">Menor a Mayor</option>
+              <option value="desc">Mayor a Menor</option>
+            </select>
+          </div>
         </div>
 
         <div className={styles.content}>
@@ -428,7 +535,7 @@ function App() {
               <>
                 <div className={styles.cardsContainer}>
                   {watches.map((reloj) => (
-                    <Card key={reloj.id} name={reloj.name} description={reloj.description} image={reloj.image} price={reloj.price} />
+                    <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} image={reloj.image} price={reloj.price} />
                   ))}
                 </div>
               </>

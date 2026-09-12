@@ -9,7 +9,10 @@ import styles from './styles/App.module.css';
 /* import contact from '../assets/contact.svg'; */
 /* import nezaBorder from '../assets/neza-logo-border.svg'; */
 /* import Modal from './Modal'; */
-import cartierSantos from './assets/cartier-santos.png';
+import cartierSantos1 from './assets/cartier-santos-1.png';
+import cartierSantos2 from './assets/cartier-santos-2.png';
+import cartierSantos3 from './assets/cartier-santos-3.png';
+import cartierSantos4 from './assets/cartier-santos-4.png';
 import nezaLogo from './assets/neza-logo.svg';
 import profile from './assets/profile.png';
 import profile_accesorios from './assets/profile_accesorios.jpg';
@@ -40,131 +43,16 @@ function App() {
       id: "cartier-santos",
       name: 'Cartier Santos',
       description: 'Descripción del Cartier Santos',
-      image: cartierSantos,
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
       price: '$100',
       /* link: 'https://www.tiktok.com/@elvisscochito' */
       brand: 'Brand 1',
       bestSeller: true,
-      inStock: true
-    },
-    {
-      id: 2,
-      name: 'Tissot PRX',
-      description: 'Descripción del Reloj 2',
-      image: cartierSantos,
-      price: '$150',
-      /* link: 'https://www.instagram.com/elvisscochito/' */
-      brand: 'Brand 1',
-      bestSeller: false,
-      inStock: true
-    },
-    {
-      id: 3,
-      name: 'SEIKO Green',
-      description: 'Descripción del Reloj 3',
-      image: cartierSantos,
-      price: '$200',
-      /* link: 'https://wa.me/527771395795' */
-      brand: 'Brand 2',
-      bestSeller: true,
-      inStock: false
-    },
-    {
-      id: 4,
-      name: 'SEIKO PRESAGE',
-      description: 'Descripción del Reloj 4',
-      image: cartierSantos,
-      price: '$250',
-      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
-      brand: 'Brand 2',
-      bestSeller: false,
-      inStock: true
-    },
-    {
-      id: 5,
-      name: 'Fuck 9 - 5',
-      description: 'Descripción del Reloj 5',
-      image: cartierSantos,
-      price: '$100',
-      /* link: 'https://www.tiktok.com/@elvisscochito' */
-      brand: 'Brand 1',
-      bestSeller: true,
-      inStock: true
-    },
-    {
-      id: 6,
-      name: 'Tissot PRX',
-      description: 'Descripción del Reloj 6',
-      image: cartierSantos,
-      price: '$150',
-      /* link: 'https://www.instagram.com/elvisscochito/' */
-      brand: 'Brand 1',
-      bestSeller: false,
-      inStock: true
-    },
-    {
-      id: 7,
-      name: 'SEIKO Green',
-      description: 'Descripción del Reloj 7',
-      image: cartierSantos,
-      price: '$200',
-      /* link: 'https://wa.me/527771395795' */
-      brand: 'Brand 2',
-      bestSeller: true,
-      inStock: false
-    },
-    {
-      id: 8,
-      name: 'SEIKO PRESAGE',
-      description: 'Descripción del Reloj 8',
-      image: cartierSantos,
-      price: '$250',
-      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
-      brand: 'Brand 2',
-      bestSeller: false,
-      inStock: true
-    }, {
-      id: 9,
-      name: 'Fuck 9 - 5',
-      description: 'Descripción del Reloj 9',
-      image: cartierSantos,
-      price: '$100',
-      /* link: 'https://www.tiktok.com/@elvisscochito' */
-      brand: 'Brand 1',
-      bestSeller: true,
-      inStock: true
-    },
-    {
-      id: 10,
-      name: 'Tissot PRX',
-      description: 'Descripción del Reloj 10',
-      image: cartierSantos,
-      price: '$150',
-      /* link: 'https://www.instagram.com/elvisscochito/' */
-      brand: 'Brand 1',
-      bestSeller: false,
-      inStock: true
-    },
-    {
-      id: 11,
-      name: 'SEIKO Green',
-      description: 'Descripción del Reloj 11',
-      image: cartierSantos,
-      price: '$200',
-      /* link: 'https://wa.me/527771395795' */
-      brand: 'Brand 2',
-      bestSeller: true,
-      inStock: false
-    },
-    {
-      id: 12,
-      name: 'SEIKO PRESAGE',
-      description: 'Descripción del Reloj 12',
-      image: cartierSantos,
-      price: '$250',
-      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
-      brand: 'Brand 2',
-      bestSeller: false,
       inStock: true
     }
   ];

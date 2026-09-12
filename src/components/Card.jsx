@@ -1,6 +1,7 @@
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faShare } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight, faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useCallback, useState } from "react";
 import styles from "../styles/Card.module.css";
 
 const Card = ({ id, name, description, image, price }) => {
@@ -29,6 +30,25 @@ const Card = ({ id, name, description, image, price }) => {
     }
   };
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleLeft = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? image.length - 1 : prevIndex - 1));
+  }
+
+  const handleRight = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex === image.length - 1 ? 0 : prevIndex + 1));
+  }, [image.length]);
+
+  /** @note left, middle and right images */
+  const getVisibleImages = () => {
+    return [
+      image[(currentIndex - 1 + image.length) % image.length],
+      image[currentIndex],
+      image[(currentIndex + 1) % image.length]
+    ];
+  };
+
   return (
     <div className={`${styles.card} ${isHighlighted ? styles.highlighted : ''
       }`}
@@ -37,7 +57,31 @@ const Card = ({ id, name, description, image, price }) => {
       <h4>{name}</h4>
       <figure className={styles.figure}>
         <div className={styles.imageContainer}>
-          <img src={image} alt={name} />
+          <button className={styles.left} onClick={handleLeft}>
+            <FontAwesomeIcon icon={faAngleLeft} />
+          </button>
+          {
+            getVisibleImages().map((imgSrc, index) => (
+              <img key={index} src={imgSrc} alt={`${name} Badge ${index + 1}`} className={styles.image} />
+            ))
+          }
+          {/* <img src={image} alt={name} /> */}
+          <button className={styles.right} onClick={handleRight}>
+            <FontAwesomeIcon icon={faAngleRight} />
+          </button>
+          <div className={styles.dotsContainer}>
+            {
+              image.map((_, index) => (
+                <span
+                  key={index}
+                  className={`${styles.dot} ${index === currentIndex ? styles.active : styles.inactive
+                    }`}
+                /* onClick={handleDotClick.bind(null, index)} */
+                >
+                </span>
+              ))
+            }
+          </div>
         </div>
         <figcaption className={styles.price}>{price}</figcaption>
       </figure>

@@ -4,22 +4,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { useEffect, useRef, useState } from 'react';
-import styles from '../styles/App.module.css';
 import './App.css';
+import styles from './styles/App.module.css';
 /* import contact from '../assets/contact.svg'; */
 /* import nezaBorder from '../assets/neza-logo-border.svg'; */
 /* import Modal from './Modal'; */
+import cartierSantos from './assets/cartier-santos.png';
+import nezaLogo from './assets/neza-logo.svg';
 import profile from './assets/profile.png';
 import profile_accesorios from './assets/profile_accesorios.jpg';
-import watch1 from './assets/watch1.png';
-import watch2 from './assets/watch2.png';
-import watch3 from './assets/watch3.png';
-import watch4 from './assets/watch4.png';
 import Card from './components/Card';
+import Modal from './components/Modal';
+import ModalPolicies from './components/ModalPolicies';
 
 function App() {
 
   const modalRef = useRef(null);
+  const modalPoliciesRef = useRef(null);
   const modalRefSettings = useRef(null);
   const [tabs, setTabs] = useState([
     {
@@ -36,10 +37,10 @@ function App() {
 
   const watchCatalog = [
     {
-      id: "fuck-9-5",
-      name: 'Fuck 9 - 5',
-      description: 'Descripción del Reloj 1',
-      image: watch1,
+      id: "cartier-santos",
+      name: 'Cartier Santos',
+      description: 'Descripción del Cartier Santos',
+      image: cartierSantos,
       price: '$100',
       /* link: 'https://www.tiktok.com/@elvisscochito' */
       brand: 'Brand 1',
@@ -50,7 +51,7 @@ function App() {
       id: 2,
       name: 'Tissot PRX',
       description: 'Descripción del Reloj 2',
-      image: watch2,
+      image: cartierSantos,
       price: '$150',
       /* link: 'https://www.instagram.com/elvisscochito/' */
       brand: 'Brand 1',
@@ -61,7 +62,7 @@ function App() {
       id: 3,
       name: 'SEIKO Green',
       description: 'Descripción del Reloj 3',
-      image: watch3,
+      image: cartierSantos,
       price: '$200',
       /* link: 'https://wa.me/527771395795' */
       brand: 'Brand 2',
@@ -72,7 +73,7 @@ function App() {
       id: 4,
       name: 'SEIKO PRESAGE',
       description: 'Descripción del Reloj 4',
-      image: watch4,
+      image: cartierSantos,
       price: '$250',
       /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
       brand: 'Brand 2',
@@ -83,7 +84,7 @@ function App() {
       id: 5,
       name: 'Fuck 9 - 5',
       description: 'Descripción del Reloj 5',
-      image: watch1,
+      image: cartierSantos,
       price: '$100',
       /* link: 'https://www.tiktok.com/@elvisscochito' */
       brand: 'Brand 1',
@@ -94,7 +95,7 @@ function App() {
       id: 6,
       name: 'Tissot PRX',
       description: 'Descripción del Reloj 6',
-      image: watch2,
+      image: cartierSantos,
       price: '$150',
       /* link: 'https://www.instagram.com/elvisscochito/' */
       brand: 'Brand 1',
@@ -105,7 +106,7 @@ function App() {
       id: 7,
       name: 'SEIKO Green',
       description: 'Descripción del Reloj 7',
-      image: watch3,
+      image: cartierSantos,
       price: '$200',
       /* link: 'https://wa.me/527771395795' */
       brand: 'Brand 2',
@@ -116,7 +117,7 @@ function App() {
       id: 8,
       name: 'SEIKO PRESAGE',
       description: 'Descripción del Reloj 8',
-      image: watch4,
+      image: cartierSantos,
       price: '$250',
       /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
       brand: 'Brand 2',
@@ -126,7 +127,7 @@ function App() {
       id: 9,
       name: 'Fuck 9 - 5',
       description: 'Descripción del Reloj 9',
-      image: watch1,
+      image: cartierSantos,
       price: '$100',
       /* link: 'https://www.tiktok.com/@elvisscochito' */
       brand: 'Brand 1',
@@ -137,7 +138,7 @@ function App() {
       id: 10,
       name: 'Tissot PRX',
       description: 'Descripción del Reloj 10',
-      image: watch2,
+      image: cartierSantos,
       price: '$150',
       /* link: 'https://www.instagram.com/elvisscochito/' */
       brand: 'Brand 1',
@@ -148,7 +149,7 @@ function App() {
       id: 11,
       name: 'SEIKO Green',
       description: 'Descripción del Reloj 11',
-      image: watch3,
+      image: cartierSantos,
       price: '$200',
       /* link: 'https://wa.me/527771395795' */
       brand: 'Brand 2',
@@ -159,7 +160,7 @@ function App() {
       id: 12,
       name: 'SEIKO PRESAGE',
       description: 'Descripción del Reloj 12',
-      image: watch4,
+      image: cartierSantos,
       price: '$250',
       /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
       brand: 'Brand 2',
@@ -404,8 +405,8 @@ function App() {
 
   const handleModal = () => {
     modalRef.current?.open(
-      "Welcome",
-      "Hi there! Thanks for checking out my Link In Bio page. Feel free to explore my socials and projects. If you'd like to get in touch, don't hesitate to reach out via email, phone or WhatsApp. Have a great day!"
+      "Padrinos y Madrinas 🤝",
+      "Soy David Juárez, El Padrino Relojero. Ofrezco relojes y accesorios de alta calidad, con productos exclusivos y atención personalizada. Contáctame por WhatsApp para más información."
     );
   }
 
@@ -416,6 +417,10 @@ function App() {
   }
 
   const activeTab = tabs.find((tab) => tab.active) || tabs[0];
+
+  const openPoliciesModal = () => {
+    modalPoliciesRef.current?.open();
+  }
 
   return (
     <>
@@ -541,6 +546,9 @@ function App() {
                     By: David Juárez el Padrino ⌚️
                   </span>
                   <span>
+                    Entregas personales 🤝
+                  </span>
+                  <span>
                     Envíos Gratis ✈️
                   </span>
                   <div className={styles.location}>
@@ -572,6 +580,19 @@ function App() {
                 </>
               )
             }
+          </div>
+
+          <div className={styles.policiesContainer}>
+            {/* <span className={styles.paymentMethods}>
+              Métodos de Pago:
+              <span className={styles.paymentMethod}>Efectivo</span>
+              <span className={styles.paymentMethod}>Transferencia</span>
+              <span className={styles.paymentMethod}>Mercado Pago</span>
+            </span>
+            <span className={styles.shippingInfo}>
+              Envíos a todo México 🇲🇽
+            </span> */}
+            Ver&nbsp;<span className={styles.policiesLink} onClick={openPoliciesModal}>políticas de envios y devoluciones &#8599;</span>
           </div>
 
           <div className={styles.socialLinks}>
@@ -691,16 +712,21 @@ function App() {
           } */}
         </div>
 
-        {/* <Modal ref={modalRef} /> */}
+        <Modal ref={modalRef} />
+        <ModalPolicies ref={modalPoliciesRef} />
       </div >
 
-      <a className={styles.faWhatsappButton} href='https://wa.me/527771204363' target='_blank' rel="noopener noreferrer">
-        <FontAwesomeIcon icon={faWhatsapp} className={styles.faWhatsappIcon} />
-      </a>
+      <div className={styles.whatsAppButtonContainer}>
+        <a className={styles.faWhatsappButton} href='https://wa.me/527771204363' target='_blank' rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faWhatsapp} className={styles.faWhatsappIcon} />
+        </a>
+        <span>Chatea con El Padrino</span>
+      </div>
 
       <footer className={styles.footer}>
         <span className={styles.footerText}>Copyright &#169; {new Date().getFullYear()}. El Padrino Relojero. Todos los derechos reservados.{/* </span> */}
-          {/* <span className={styles.footerText}> */} Desarrollado por <a href="https://www.nezastartup.com" target="_blank" rel="noopener noreferrer" className={styles.link}>Neza Startup</a></span>
+          {/* <span className={styles.footerText}> */}</span>
+        <span className={styles.footerText}>Desarrollado por <a href="https://www.nezastartup.com" target="_blank" rel="noopener noreferrer" className={styles.link}>Neza Startup <img src={nezaLogo} alt="Neza Logo" className={styles.icon} /> &#8599;</a></span>
       </footer>
     </>
   )

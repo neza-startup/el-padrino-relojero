@@ -10,8 +10,6 @@ div.card {
   transition: box-shadow 0.3s ease;
   gap: 0.5rem;
 
-
-
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
@@ -21,31 +19,68 @@ div.card {
     position: relative;
     /* width: 100%; */
 
+    div.imageContainer {
+      /* width: 8rem;
+      height: 8rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center; */
+      padding: 0.5rem;
+      background: url('../assets/border.png') center / 100% 100% no-repeat;
+    }
+
     img {
-      width: 100%;
+      /* width: 100%;
       height: auto;
       border-radius: 0.5rem;
-      /* margin-bottom: 1rem; */
-      /* aspect-ratio: 1/1;
+      width: 8rem;
+      height: 8rem;
+      aspect-ratio: 1/1;
       object-fit: cover;
-      object-position: center; */
+      object-position: center;
+      border: 10px solid transparent;
+      border-image: url('../assets/border.png') 10 round; */
+
+      display: block;
+      /* width: 100%;
+      height: 100%; */
+      width: 8rem;
+      height: 8rem;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 0.35rem;
+
+      /* width: 8rem;
+      height: 8rem;
+      display: block;
+      box-sizing: border-box;
+      object-fit: cover;
+      object-position: center;
+
+      border: 12px solid transparent;
+      border-image: url('../assets/border.png') 12 round; */
     }
 
     figcaption.price {
       /* font-size: 1rem;
       color: #666; */
+      margin-top: 0.5rem;
+      margin-bottom: -0.5rem;
       text-align: center;
       font-size: 1.25rem;
       font-weight: 700;
       color: #333;
       background-color: light-dark(rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0.8));
-      padding: 0.5rem 1rem;
+      /* padding: 0.5rem 1rem; */
       border-radius: 0.25rem;
+      color: light-dark(#333, #fff);
 
-      position: absolute;
+      /* position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%); */
     }
   }
 
@@ -60,6 +95,8 @@ div.card {
     line-height: 1.4;
     color: #666;
     text-align: center;
+    max-width: 18ch;
+
     /* margin-bottom: 1rem; */
   }
 

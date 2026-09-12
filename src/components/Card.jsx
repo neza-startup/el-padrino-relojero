@@ -36,7 +36,9 @@ const Card = ({ id, name, description, image, price }) => {
       {/* <p>{description}</p> */}
       <h4>{name}</h4>
       <figure className={styles.figure}>
-        <img src={image} alt={name} />
+        <div className={styles.imageContainer}>
+          <img src={image} alt={name} />
+        </div>
         <figcaption className={styles.price}>{price}</figcaption>
       </figure>
       {/* description */}

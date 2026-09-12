@@ -286,6 +286,29 @@ div.linkInBio {
       } */
     }
 
+    div.policiesContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      /* gap: 0.5rem;
+      margin-top: 0.5rem; */
+
+      span.policiesLink {
+        font-size: 0.9rem;
+        color: var(--accent-color);
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: 600;
+
+        @media (hover: hover) and (pointer: fine) {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
     div.socialLinks {
       display: flex;
       flex-direction: row;
@@ -629,47 +652,72 @@ div.linkInBio {
 
 }
 
-a.faWhatsappButton {
+div.whatsAppButtonContainer {
   position: fixed;
-  bottom: 4rem;
+  bottom: 5rem;
   right: 2.5rem;
   z-index: 1000;
-  background-color: #25D366;
-  color: white;
-  border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-decoration: none;
+  gap: 0.5rem;
 
-  /* shadow */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      background-color: #1DA851;
-    }
+  span {
+    font-size: 0.8rem;
+    color: light-dark(var(--details), var(--text-aux-color));
+    text-align: center;
+    font-weight: 600;
+    background-color: light-dark(#F5F5F5, #1E1E1E);
+    /* padding: 0.25rem 0.5rem; */
+    border-radius: 0.25rem;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    /* backdrop-filter: blur(4px); */
+    /* border: 1px solid light-dark(var(--details), var(--text-aux-color)); */
+    max-width: 16ch;
   }
 
-  .faWhatsappIcon {
-    font-size: 1.5rem;
+  a.faWhatsappButton {
+    position: relative;
+    z-index: 1000;
+    background-color: #25D366;
     color: white;
-    transition: transform 0.2s ease-in-out;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+
+    /* shadow */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
     @media (hover: hover) and (pointer: fine) {
-      a.faWhatsappButton:hover & {
-        transform: scale(1.1);
+      &:hover {
+        background-color: #1DA851;
+      }
+    }
+
+    .faWhatsappIcon {
+      font-size: 1.5rem;
+      color: white;
+      transition: transform 0.2s ease-in-out;
+
+      @media (hover: hover) and (pointer: fine) {
+        a.faWhatsappButton:hover & {
+          transform: scale(1.1);
+        }
       }
     }
   }
 }
 
+
 footer.footer {
   /* margin-top: 1rem; */
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -686,6 +734,36 @@ footer.footer {
     font-size: 0.8rem;
     color: gray;
     text-align: center;
+
+    a.link {
+      color: gray;
+      text-decoration: none;
+      font-weight: 600;
+
+      img {
+        width: 1em;
+        height: 1em;
+        object-fit: contain;
+      }
+
+      @media (prefers-color-scheme: light) {
+        img {
+          content: url("../assets/neza-logo-dark.svg");
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        img {
+          content: url("../assets/neza-logo.svg");
+        }
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 }
 
@@ -717,6 +795,18 @@ footer.footer {
       div.cardsContainer {
         width: 100%;
       }
+    }
+  }
+
+  div.whatsAppButtonContainer {
+    bottom: 6rem;
+    right: 1.2rem;
+
+    span {
+      /* font-size: 0.7rem;
+      max-width: 12ch; */
+
+      display: none;
     }
   }
 }

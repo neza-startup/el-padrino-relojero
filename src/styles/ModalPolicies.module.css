@@ -1,0 +1,24 @@
+@import url('./Modal.module.css');
+
+dialog.modal:modal {
+  gap: 0.5rem;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: light-dark(#333, #fff);
+
+  span {
+    font-weight: 700;
+  }
+
+  ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+}

@@ -234,16 +234,16 @@ function App() {
     }
   ];
 
-  const recordsPerPage = 5;
-
-  const { maxPage, page, isDataGreaterThanZero, isDataGreaterThanPageSize, isFirstStep, isLastStep, next, previous, reset, goTo, pageValues } = usePagination({
-    values: watchCatalog,
-    pageSize: recordsPerPage
-  });
-
   const [currentFilter, setCurrentFilter] = useState('all');
   const [currentOrder, setCurrentOrder] = useState('none');
   const [watches, setWatches] = useState(watchCatalog);
+
+  const recordsPerPage = 5;
+
+  const { maxPage, page, isDataGreaterThanZero, isDataGreaterThanPageSize, isFirstStep, isLastStep, next, previous, reset, goTo, pageValues } = usePagination({
+    values: watches,
+    pageSize: recordsPerPage
+  });
 
   const getFilteredAndSortedWatches = (filter, order) => {
     let result;
@@ -751,6 +751,37 @@ function App() {
             </select>
           </div>
         </div>
+
+        {/* search input */}
+        <div className={styles.searchContainer}>
+          <label htmlFor="searchInput" className={styles.searchLabel}>Buscar:</label>
+          <input type="text" id='searchInput' name='searchInput' className={styles.searchInput} placeholder='Buscar por nombre...' /* onChange={(e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredWatches = watchCatalog.filter((watch) =>
+              watch.name.toLowerCase().includes(searchTerm)
+            );
+            setWatches(filteredWatches);
+          }} */ onChange={(e) => {
+              const searchTerm = e.target.value.toLowerCase().trim();
+
+              const filteredWatches = watchCatalog.filter((watch) =>
+                watch.name.toLowerCase().includes(searchTerm)
+              );
+
+              setWatches(filteredWatches);
+              reset();
+            }} />
+        </div>
+
+        {/* <div className={styles.searchContainer}>
+          <input
+            type="text"
+            placeholder="Buscar relojes..."
+            className={styles.searchInput}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div> */}
 
         <div className={styles.content}>
           {

@@ -28,24 +28,56 @@ div.card {
       display: flex;
       align-items: center;
       justify-content: center; */
-      /* padding: 0.5rem;
-      background: url('../assets/border.png') center / 100% 100% no-repeat; */
+      padding: 0.5rem;
+      background: url('../assets/border.png') center / 100% 100% no-repeat;
 
-      position: relative;
-      display: flex;
+      /* position: relative;
+      display: flex; */
       /* flex-direction: row !important;
                       justify-content: center;
                       align-items: center;
                       text-align: center; */
-      overflow: scroll;
+      /* overflow: scroll; */
       /* scrollbar-gutter: stable; */
-      scroll-snap-type: x mandatory;
+      /* scroll-snap-type: x mandatory; */
       /* background-color: red; */
-      gap: 0.5rem;
+      /* gap: 0.5rem; */
+
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      /* overflow: hidden; */
+
+      button.left,
+      button.right {
+        border: none;
+        border-radius: 0.25rem;
+        width: 1.25rem;
+        height: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        z-index: 10;
+        cursor: pointer;
+        background-color: light-dark(rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0.8));
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: light-dark(rgba(255, 255, 255, 1), rgba(0, 0, 0, 1));
+        }
+      }
 
       button.left {
+        left: 0.8rem;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+      }
+
+      button.right {
         position: absolute;
-        left: 0.5rem;
+        right: 0.8rem;
         top: 50%;
         transform: translateY(-50%);
         z-index: 10;
@@ -82,17 +114,17 @@ div.card {
             border: 12px solid transparent;
             border-image: url('../assets/border.png') 12 round; */
 
-        width: 8rem;
+        /* width: 8rem;
         height: 8rem;
         aspect-ratio: 1/1 !important;
         object-fit: cover;
         object-position: center;
         border-radius: 1rem;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.75rem; */
         /* background-color: rgba(250, 250, 250, 0.8); */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 
-        width: 100%;
+        /* width: 100%;
         aspect-ratio: 1/1 !important;
         left: 0;
         position: sticky;
@@ -100,38 +132,39 @@ div.card {
         object-position: center;
         border-radius: 1rem;
         margin-bottom: 0.75rem;
-        scroll-snap-align: start;
-      }
+        scroll-snap-align: start; */
 
-      button.right {
-        position: absolute;
-        right: 0.5rem;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 10;
+        width: 100%;
+        height: 100%;
+        width: 8rem;
+        height: 8rem;
+        object-fit: cover;
+        border-radius: 1rem;
+        display: block;
       }
 
       div.dotsContainer {
         position: absolute;
-        bottom: 0.5rem;
+        bottom: 0.8rem;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
         gap: 0.25rem;
-        background-color: red;
         z-index: 10;
+        background-color: light-dark(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5));
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.5rem;
 
         span.dot {
-          width: 8px;
-          height: 8px;
+          width: 0.5rem;
+          height: 0.5rem;
           border-radius: 999px;
-          transition: all 0.25s ease;
-          background-color: red;
+          transition: all 0.3s ease-in-out;
         }
 
         span.active {
           width: 24px;
-          background: #fff;
+          background: hsl(0, 0%, 100%);
         }
 
         span.inactive {

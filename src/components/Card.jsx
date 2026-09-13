@@ -41,13 +41,13 @@ const Card = ({ id, name, description, image, price }) => {
   }, [image.length]);
 
   /** @note left, middle and right images */
-  const getVisibleImages = () => {
+  /* const getVisibleImages = () => {
     return [
       image[(currentIndex - 1 + image.length) % image.length],
       image[currentIndex],
       image[(currentIndex + 1) % image.length]
     ];
-  };
+  }; */
 
   return (
     <div className={`${styles.card} ${isHighlighted ? styles.highlighted : ''
@@ -60,11 +60,12 @@ const Card = ({ id, name, description, image, price }) => {
           <button className={styles.left} onClick={handleLeft}>
             <FontAwesomeIcon icon={faAngleLeft} />
           </button>
-          {
+          {/* {
             getVisibleImages().map((imgSrc, index) => (
               <img key={index} src={imgSrc} alt={`${name} Badge ${index + 1}`} className={styles.image} />
             ))
-          }
+          } */}
+          <img src={image[currentIndex]} alt={name} />
           {/* <img src={image} alt={name} /> */}
           <button className={styles.right} onClick={handleRight}>
             <FontAwesomeIcon icon={faAngleRight} />

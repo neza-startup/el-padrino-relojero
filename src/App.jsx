@@ -234,13 +234,13 @@ function App() {
     }
   ];
 
-  const [currentFilter, setCurrentFilter] = useState('all');
+  /* const [currentFilter, setCurrentFilter] = useState('all');
   const [currentOrder, setCurrentOrder] = useState('none');
-  const [watches, setWatches] = useState(watchCatalog);
+  const [watches, setWatches] = useState(watchCatalog); */
 
   const recordsPerPage = 5;
 
-  const { maxPage, page, isDataGreaterThanZero, isDataGreaterThanPageSize, isFirstStep, isLastStep, next, previous, reset, goTo, pageValues } = usePagination({
+  /* const { maxPage, page, isDataGreaterThanZero, isDataGreaterThanPageSize, isFirstStep, isLastStep, next, previous, reset, goTo, pageValues } = usePagination({
     values: watches,
     pageSize: recordsPerPage
   });
@@ -301,7 +301,7 @@ function App() {
     );
 
     setWatches(result);
-  };
+  }; */
 
   /* handle tab switching */
   /* const handleTabClick = (id) => {
@@ -441,24 +441,6 @@ function App() {
     }
   }, []);
 
-  /* Scroll to a specific watch when the URL hash changes */
-  useEffect(() => {
-    if (!window.location.hash) return;
-
-    const scrollToWatch = () => {
-      const element = document.querySelector(window.location.hash);
-
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        });
-      }
-    };
-
-    setTimeout(scrollToWatch, 300);
-  }, [watches]);
-
   const handleShare = () => {
     const shareData = {
       title: 'El Padrino Relojero',
@@ -493,6 +475,98 @@ function App() {
   const openPoliciesModal = () => {
     modalPoliciesRef.current?.open();
   }
+
+  const [currentFilter, setCurrentFilter] = useState("all");
+  const [currentOrder, setCurrentOrder] = useState("none");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const getFilteredAndSortedWatches = (filter, order, term) => {
+    let result = [...watchCatalog];
+
+    if (filter === "bestSeller") {
+      result = result.filter((watch) => watch.bestSeller);
+    } else if (filter === "inStock") {
+      result = result.filter((watch) => watch.inStock);
+    } else if (filter === "outOfStock") {
+      result = result.filter((watch) => !watch.inStock);
+    } else if (filter !== "all") {
+      result = result.filter((watch) => watch.brand === filter);
+    }
+
+    const normalizedTerm = term.trim().toLowerCase();
+
+    if (normalizedTerm) {
+      result = result.filter((watch) =>
+        watch.name.toLowerCase().includes(normalizedTerm)
+      );
+    }
+
+    if (order === "asc") {
+      result.sort(
+        (a, b) =>
+          Number(a.price.replace("$", "")) -
+          Number(b.price.replace("$", ""))
+      );
+    } else if (order === "desc") {
+      result.sort(
+        (a, b) =>
+          Number(b.price.replace("$", "")) -
+          Number(a.price.replace("$", ""))
+      );
+    }
+
+    return result;
+  };
+
+  const watches = getFilteredAndSortedWatches(
+    currentFilter,
+    currentOrder,
+    searchTerm
+  );
+
+  /* Scroll to a specific watch when the URL hash changes */
+  useEffect(() => {
+    if (!window.location.hash) return;
+
+    const scrollToWatch = () => {
+      const element = document.querySelector(window.location.hash);
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    };
+
+    setTimeout(scrollToWatch, 300);
+  }, [watches]);
+
+  const {
+    maxPage,
+    page,
+    isDataGreaterThanPageSize,
+    isFirstStep,
+    isLastStep,
+    next,
+    previous,
+    reset,
+    goTo,
+    pageValues
+  } = usePagination({
+    values: watches,
+    pageSize: recordsPerPage
+  });
+
+  const filterWatches = (filter) => {
+    setCurrentFilter(filter);
+    reset();
+  };
+
+  const orderWatchesByPrice = (order) => {
+    setCurrentOrder(order);
+    reset();
+  };
 
   return (
     <>
@@ -761,7 +835,7 @@ function App() {
               watch.name.toLowerCase().includes(searchTerm)
             );
             setWatches(filteredWatches);
-          }} */ onChange={(e) => {
+          }} */ /* onChange={(e) => {
               const searchTerm = e.target.value.toLowerCase().trim();
 
               const filteredWatches = watchCatalog.filter((watch) =>
@@ -769,6 +843,9 @@ function App() {
               );
 
               setWatches(filteredWatches);
+              reset();
+            }} */ onChange={(e) => {
+              setSearchTerm(e.target.value);
               reset();
             }} />
         </div>

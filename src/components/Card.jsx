@@ -1,7 +1,7 @@
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { faAngleLeft, faAngleRight, faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import styles from "../styles/Card.module.css";
 
 const Card = ({ id, name, description, image, price }) => {
@@ -32,13 +32,13 @@ const Card = ({ id, name, description, image, price }) => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleLeft = () => {
+  /* const handleLeft = () => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? image.length - 1 : prevIndex - 1));
   }
 
   const handleRight = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex === image.length - 1 ? 0 : prevIndex + 1));
-  }, [image.length]);
+  }, [image.length]); */
 
   /** @note left, middle and right images */
   /* const getVisibleImages = () => {
@@ -48,6 +48,28 @@ const Card = ({ id, name, description, image, price }) => {
       image[(currentIndex + 1) % image.length]
     ];
   }; */
+
+  const sliderRef = useRef(null);
+
+  const goToImage = useCallback((index) => {
+    const nextIndex = (index + image.length) % image.length;
+    const slider = sliderRef.current;
+
+    slider?.scrollTo({
+      left: nextIndex * slider.clientWidth,
+      behavior: "smooth",
+    });
+
+    setCurrentIndex(nextIndex);
+  }, [image.length]);
+
+  const handleLeft = () => goToImage(currentIndex - 1);
+  const handleRight = () => goToImage(currentIndex + 1);
+
+  const handleScroll = (event) => {
+    const { scrollLeft, clientWidth } = event.currentTarget;
+    setCurrentIndex(Math.round(scrollLeft / clientWidth));
+  };
 
   return (
     <div className={`${styles.card} ${isHighlighted ? styles.highlighted : ''
@@ -61,9 +83,9 @@ const Card = ({ id, name, description, image, price }) => {
             <FontAwesomeIcon icon={faAngleLeft} />
           </button>
           {/* {
-            getVisibleImages().map((imgSrc, index) => (
-              <img key={index} src={imgSrc} alt={`${name} Badge ${index + 1}`} className={styles.image} />
-            ))
+            getVisibleImages()image.map((imgSrc, index) => (
+            <img key={index} src={imgSrc} alt={`${name} Badge ${index + 1}`} className={styles.image} />
+          ))
           } */}
           <img src={image[currentIndex]} alt={name} />
           {/* <img src={image} alt={name} /> */}

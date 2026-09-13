@@ -28,8 +28,9 @@ div.card {
       display: flex;
       align-items: center;
       justify-content: center; */
-      padding: 0.5rem;
-      background: url('../assets/border.png') center / 100% 100% no-repeat;
+
+      /* padding: 0.5rem;
+      background: url('../assets/border.png') center / 100% 100% no-repeat; */
 
       /* position: relative;
       display: flex; */
@@ -43,10 +44,38 @@ div.card {
       /* background-color: red; */
       /* gap: 0.5rem; */
 
+      /* position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1; */
+      /* overflow: hidden; */
+
+      --frame-size: 12px;
+
       position: relative;
       width: 100%;
       aspect-ratio: 1 / 1;
-      /* overflow: hidden; */
+      padding: var(--frame-size);
+      box-sizing: border-box;
+      background: url("../assets/border.png") center / 100% 100% no-repeat;
+
+      div.slider {
+        /* display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; */
+        /* Firefox */
+
+        width: 100%;
+        height: 100%;
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        border-radius: 0.75rem;
+      }
 
       button.left,
       button.right {
@@ -134,17 +163,25 @@ div.card {
         margin-bottom: 0.75rem;
         scroll-snap-align: start; */
 
-        width: 100%;
+        /* width: 100%;
         height: 100%;
         width: 8rem;
         height: 8rem;
         object-fit: cover;
         border-radius: 1rem;
+        display: block; */
+
+        flex: 0 0 100%;
+        width: 100%;
+        height: 100%;
         display: block;
+        object-fit: cover;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
       }
 
       div.dotsContainer {
-        position: absolute;
+        /* position: absolute;
         bottom: 0.8rem;
         left: 50%;
         transform: translateX(-50%);
@@ -153,7 +190,15 @@ div.card {
         z-index: 10;
         background-color: light-dark(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5));
         padding: 0.25rem 0.5rem;
-        border-radius: 0.5rem;
+        border-radius: 0.5rem; */
+
+        position: absolute;
+        bottom: calc(var(--frame-size) + 0.5rem);
+        left: 50%;
+        z-index: 2;
+        display: flex;
+        gap: 0.25rem;
+        transform: translateX(-50%);
 
         span.dot {
           width: 0.5rem;

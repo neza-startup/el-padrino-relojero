@@ -2,6 +2,7 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { faAngleLeft, faAngleRight, faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useRef, useState } from "react";
+import Modal from '../components/ModalGallery';
 import styles from "../styles/Card.module.css";
 
 const Card = ({ id, name, description, image, price }) => {
@@ -71,6 +72,39 @@ const Card = ({ id, name, description, image, price }) => {
     setCurrentIndex(Math.round(scrollLeft / clientWidth));
   };
 
+  const touchStartX = useRef(0);
+
+  const handleTouchStart = (event) => {
+    touchStartX.current = event.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (event) => {
+    const touchEndX = event.changedTouches[0].clientX;
+    const distance = touchEndX - touchStartX.current;
+
+    // Evita activar un cambio por un toque pequeño
+    if (Math.abs(distance) < 50) return;
+
+    if (distance > 0) {
+      handleLeft(); // Deslizar hacia la derecha: imagen anterior
+    } else {
+      handleRight(); // Deslizar hacia la izquierda: imagen siguiente
+    }
+  };
+
+  const modalRef = useRef(null);
+
+  const openModalGallery = () => {
+    modalRef.current?.open(
+      {
+        title: `Galería de ${name}`,
+        images: image,
+        message: description,
+        btn: "Cerrar",
+      }
+    );
+  };
+
   return (
     <div className={`${styles.card} ${isHighlighted ? styles.highlighted : ''
       }`}
@@ -78,8 +112,8 @@ const Card = ({ id, name, description, image, price }) => {
       {/* <p>{description}</p> */}
       <h4>{name}</h4>
       <figure className={styles.figure}>
-        <div className={styles.imageContainer}>
-          <button className={styles.left} onClick={handleLeft}>
+        <div className={styles.imageContainer} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+          <button className={styles.left} onClick={handleLeft} aria-label="Imagen anterior">
             <FontAwesomeIcon icon={faAngleLeft} />
           </button>
           {/* {
@@ -87,9 +121,16 @@ const Card = ({ id, name, description, image, price }) => {
             <img key={index} src={imgSrc} alt={`${name} Badge ${index + 1}`} className={styles.image} />
           ))
           } */}
-          <img src={image[currentIndex]} alt={name} />
+
+          <div className={styles.slider} ref={sliderRef} onScroll={handleScroll}>
+            {image.map((imgSrc, index) => (
+              <img key={index} src={imgSrc} alt={`${name} ${index + 1}`} className={styles.image} onClick={openModalGallery} />
+            ))}
+          </div>
+
+          {/* <img src={image[currentIndex]} alt={name} /> */}
           {/* <img src={image} alt={name} /> */}
-          <button className={styles.right} onClick={handleRight}>
+          <button className={styles.right} onClick={handleRight} aria-label="Imagen siguiente">
             <FontAwesomeIcon icon={faAngleRight} />
           </button>
           <div className={styles.dotsContainer}>
@@ -99,7 +140,9 @@ const Card = ({ id, name, description, image, price }) => {
                   key={index}
                   className={`${styles.dot} ${index === currentIndex ? styles.active : styles.inactive
                     }`}
-                /* onClick={handleDotClick.bind(null, index)} */
+                  /* onClick={handleDotClick.bind(null, index)} */
+                  onClick={() => goToImage(index)}
+                  aria-label={`Ir a la imagen ${index + 1}`}
                 >
                 </span>
               ))
@@ -122,6 +165,7 @@ const Card = ({ id, name, description, image, price }) => {
         <FontAwesomeIcon icon={faShare} className={styles.icon} />
         Compartir
       </button>
+      <Modal ref={modalRef} />
     </div>
   );
 };

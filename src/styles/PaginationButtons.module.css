@@ -1,0 +1,131 @@
+div.pages {
+  padding: 0.3rem;
+  border-radius: .50rem;
+  margin: 1rem auto;
+  width: fit-content;
+  background-color: var(--main-color);
+  color: var(--text-color);
+}
+
+div.paginationButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  max-width: fit-content !important;
+  margin: 0 auto;
+
+  margin-bottom: 1rem;
+}
+
+div.paginationButtons button,
+div.paginationButtons input[type="number"] {
+  border: none;
+  cursor: pointer;
+  padding: 0.6rem;
+  border-radius: .50rem;
+  background-color: var(--main-color);
+  color: var(--text-color);
+  /* font-size: 1.3rem; */
+  font-weight: bold;
+  position: relative;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+
+  transition: all 0.3s ease;
+
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: light-dark(#f8f9fa, #1f2937);
+  color: light-dark(#333, #fff);
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+
+  background-color: light-dark(#f8f9fa, #1f2937);
+  color: light-dark(#333, #fff);
+
+  &:hover {
+    background-color: light-dark(#e2e8f0, #374151);
+    /* #2563EB */
+    ;
+  }
+}
+
+.paginationButtons button,
+.paginationButtons input[type="number"] {
+  height: 2.7rem;
+  min-width: 2.7rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.9rem;
+  background: #f8fafc;
+  color: #30343b;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 6%);
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.paginationButtons button {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0 0.85rem;
+  margin: 0 0.25rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.9rem;
+  background: #f8fafc;
+  color: #30343b;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 6%);
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.paginationButtons button:hover {
+  background: #202124;
+  border-color: #202124;
+  color: #fff;
+  box-shadow: 0 5px 12px rgb(0 0 0 / 16%);
+  transform: translateY(-2px);
+}
+
+.paginationButtons button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 12%);
+}
+
+.paginationButtons button:focus-visible,
+.paginationButtons input[type="number"]:focus-visible {
+  outline: 3px solid rgb(34 197 94 / 35%);
+  outline-offset: 3px;
+}
+
+.paginationButtons input[type="number"] {
+  width: 3.3rem;
+  text-align: center;
+  padding: 0 0.35rem;
+  cursor: text;
+  appearance: textfield;
+}
+
+.paginationButtons input[type="number"]::-webkit-inner-spin-button,
+.paginationButtons input[type="number"]::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.paginationButtons .active {
+  background: #22C55E;
+  border-color: #22C55E;
+  color: #fff;
+}

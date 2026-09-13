@@ -1,0 +1,27 @@
+@import url('./Modal.module.css');
+
+figure.modalImages {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+figure.modalImages img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: block;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+figure.modalImages img:hover {
+  transform: scale(1.03);
+}
+
+figure.modalImages img:only-child {
+  grid-column: 1 / -1;
+}

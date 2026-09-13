@@ -19,6 +19,8 @@ import profile_accesorios from './assets/profile_accesorios.jpg';
 import Card from './components/Card';
 import Modal from './components/Modal';
 import ModalPolicies from './components/ModalPolicies';
+import PaginationButtons from './components/PaginationButtons';
+import usePagination from './components/usePagination';
 
 function App() {
 
@@ -54,8 +56,190 @@ function App() {
       brand: 'Brand 1',
       bestSeller: true,
       inStock: true
+    },
+    {
+      id: 2,
+      name: 'Tissot PRX',
+      description: 'Descripción del Reloj 2',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$150',
+      /* link: 'https://www.instagram.com/elvisscochito/' */
+      brand: 'Brand 1',
+      bestSeller: false,
+      inStock: true
+    },
+    {
+      id: 3,
+      name: 'SEIKO Green',
+      description: 'Descripción del Reloj 3',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$200',
+      /* link: 'https://wa.me/527771395795' */
+      brand: 'Brand 2',
+      bestSeller: true,
+      inStock: false
+    },
+    {
+      id: 4,
+      name: 'SEIKO PRESAGE',
+      description: 'Descripción del Reloj 4',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$250',
+      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
+      brand: 'Brand 2',
+      bestSeller: false,
+      inStock: true
+    },
+    {
+      id: 5,
+      name: 'Fuck 9 - 5',
+      description: 'Descripción del Reloj 5',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$100',
+      /* link: 'https://www.tiktok.com/@elvisscochito' */
+      brand: 'Brand 1',
+      bestSeller: true,
+      inStock: true
+    },
+    {
+      id: 6,
+      name: 'Tissot PRX',
+      description: 'Descripción del Reloj 6',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$150',
+      /* link: 'https://www.instagram.com/elvisscochito/' */
+      brand: 'Brand 1',
+      bestSeller: false,
+      inStock: true
+    },
+    {
+      id: 7,
+      name: 'SEIKO Green',
+      description: 'Descripción del Reloj 7',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$200',
+      /* link: 'https://wa.me/527771395795' */
+      brand: 'Brand 2',
+      bestSeller: true,
+      inStock: false
+    },
+    {
+      id: 8,
+      name: 'SEIKO PRESAGE',
+      description: 'Descripción del Reloj 8',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$250',
+      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
+      brand: 'Brand 2',
+      bestSeller: false,
+      inStock: true
+    }, {
+      id: 9,
+      name: 'Fuck 9 - 5',
+      description: 'Descripción del Reloj 9',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$100',
+      /* link: 'https://www.tiktok.com/@elvisscochito' */
+      brand: 'Brand 1',
+      bestSeller: true,
+      inStock: true
+    },
+    {
+      id: 10,
+      name: 'Tissot PRX',
+      description: 'Descripción del Reloj 10',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$150',
+      /* link: 'https://www.instagram.com/elvisscochito/' */
+      brand: 'Brand 1',
+      bestSeller: false,
+      inStock: true
+    },
+    {
+      id: 11,
+      name: 'SEIKO Green',
+      description: 'Descripción del Reloj 11',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$200',
+      /* link: 'https://wa.me/527771395795' */
+      brand: 'Brand 2',
+      bestSeller: true,
+      inStock: false
+    },
+    {
+      id: 12,
+      name: 'SEIKO PRESAGE',
+      description: 'Descripción del Reloj 12',
+      image: [
+        cartierSantos1,
+        cartierSantos2,
+        cartierSantos3,
+        cartierSantos4
+      ],
+      price: '$250',
+      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
+      brand: 'Brand 2',
+      bestSeller: false,
+      inStock: true
     }
   ];
+
+  const recordsPerPage = 5;
+
+  const { maxPage, page, isDataGreaterThanZero, isDataGreaterThanPageSize, isFirstStep, isLastStep, next, previous, reset, goTo, pageValues } = usePagination({
+    values: watchCatalog,
+    pageSize: recordsPerPage
+  });
 
   const [currentFilter, setCurrentFilter] = useState('all');
   const [currentOrder, setCurrentOrder] = useState('none');
@@ -573,7 +757,7 @@ function App() {
             tabs.find(tab => tab.active).name === 'Relojes' && (
               <>
                 <div className={styles.cardsContainer}>
-                  {watches.map((reloj) => (
+                  {pageValues.map((reloj) => (
                     <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} image={reloj.image} price={reloj.price} />
                   ))}
                 </div>
@@ -610,6 +794,8 @@ function App() {
         </a>
         <span>Chatea con El Padrino</span>
       </div>
+
+      <PaginationButtons maxPage={maxPage} page={page} isDataGreaterThanPageSize={isDataGreaterThanPageSize} isFirstStep={isFirstStep} isLastStep={isLastStep} next={next} previous={previous} reset={reset} goTo={goTo} />
 
       <footer className={styles.footer}>
         <span className={styles.footerText}>Copyright &#169; {new Date().getFullYear()}. El Padrino Relojero. Todos los derechos reservados.{/* </span> */}

@@ -10,7 +10,7 @@ import styles from './styles/App.module.css';
 /* import nezaBorder from '../assets/neza-logo-border.svg'; */
 /* import Modal from './Modal'; */
 import nezaLogo from './assets/neza-logo.svg';
-import profile from './assets/profile.png';
+import profile from './assets/profile.webp';
 import profile_accesorios from './assets/profile_accesorios.jpg';
 import Card from './components/Card';
 import Modal from './components/Modal';
@@ -19,7 +19,7 @@ import PaginationButtons from './components/PaginationButtons';
 import usePagination from './components/usePagination';
 
 function App() {
-  const [isOnDevelopment, setIsOnDevelopment] = useState(false);
+  const [isOnDevelopment, setIsOnDevelopment] = useState(true);
   const modalRef = useRef(null);
   const modalPoliciesRef = useRef(null);
   const modalRefSettings = useRef(null);

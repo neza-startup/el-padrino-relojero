@@ -576,6 +576,35 @@ div.linkInBio {
     gap: 1rem;
     width: 100%;
 
+    div.developmentMessage {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 24rem;
+      font-weight: 600;
+
+      p {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 1rem;
+        color: light-dark(var(--details), var(--text-aux-color));
+        text-align: center;
+
+        /* min-width: 100% !important; */
+        span {
+          font-size: 1rem;
+          color: light-dark(var(--details), var(--text-aux-color));
+          text-align: center;
+          /* min-width: 100% !important; */
+        }
+      }
+    }
+
     div.loading {
       display: flex;
       flex-direction: column;

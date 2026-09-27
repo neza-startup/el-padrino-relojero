@@ -19,7 +19,7 @@ import PaginationButtons from './components/PaginationButtons';
 import usePagination from './components/usePagination';
 
 function App() {
-
+  const [isOnDevelopment, setIsOnDevelopment] = useState(true);
   const modalRef = useRef(null);
   const modalPoliciesRef = useRef(null);
   const modalRefSettings = useRef(null);
@@ -747,20 +747,32 @@ function App() {
 
         <div className={styles.content}>
           {
-            loading ? (
-              <div className={styles.loading}>Cargando catálogo de relojes...</div>
-            ) : null
-          }
-          {
-            tabs.find(tab => tab.active).name === 'Relojes' && (
+            isOnDevelopment ? (
+              <div className={styles.developmentMessage}>
+                <p>
+                  <span>Trabajando en el catálogo de relojes.</span>
+                  <span>Muy pronto estará disponible.</span>
+                </p>
+              </div>
+            ) :
               <>
-                <div className={styles.cardsContainer}>
-                  {pageValues.map((reloj) => (
-                    <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} inStock={reloj.inStock} />
-                  ))}
-                </div>
+                {
+                  loading ? (
+                    <div className={styles.loading}>Cargando catálogo de relojes...</div>
+                  ) : null
+                }
+                {
+                  tabs.find(tab => tab.active).name === 'Relojes' && (
+                    <>
+                      <div className={styles.cardsContainer}>
+                        {pageValues.map((reloj) => (
+                          <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} inStock={reloj.inStock} />
+                        ))}
+                      </div>
+                    </>
+                  )
+                }
               </>
-            )
           }
           {/* {
             tabs.find(tab => tab.active).name === 'Projects' && (

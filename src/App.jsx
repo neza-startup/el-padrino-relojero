@@ -43,7 +43,7 @@ function App() {
     const fetchWatches = async () => {
       try {
         const response = await fetch(
-          'http://localhost:3000/api/getWatches'
+          '/api/getWatches'
         );
 
         if (!response.ok) {

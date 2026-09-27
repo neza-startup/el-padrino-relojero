@@ -1,6 +1,7 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import morgan from "morgan";
 import connectDB from './db.js';
 import watchRoutes from './routes/watches.js';
 
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(morgan("dev"));
 connectDB();
 
 app.get('/', (req, res) => {

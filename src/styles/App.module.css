@@ -525,7 +525,6 @@ div.linkInBio {
     }
 
     select.showItemsSelect {
-      /* width: 100%; */
       padding: 0.5rem 1rem;
       /* background-color: light-dark(#F5F5F5, #1E1E1E); */
       /* color: light-dark(var(--details), var(--text-aux-color));
@@ -548,6 +547,27 @@ div.linkInBio {
     }
   }
 
+  div.resultsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 24rem;
+
+    span {
+      font-size: 1rem;
+      color: light-dark(var(--details), var(--text-aux-color));
+      text-align: center;
+      /* min-width: 100% !important; */
+
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+
   div.content {
     display: flex;
     flex-direction: column;
@@ -555,6 +575,24 @@ div.linkInBio {
     align-items: center;
     gap: 1rem;
     width: 100%;
+
+    div.loading {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 24rem;
+      font-weight: 600;
+
+      span {
+        font-size: 1rem;
+        color: light-dark(var(--details), var(--text-aux-color));
+        text-align: center;
+        /* min-width: 100% !important; */
+      }
+    }
 
     div.cardsContainer {
       display: flex;
@@ -833,6 +871,28 @@ footer.footer {
           text-decoration: underline;
         }
       }
+    }
+  }
+}
+
+div.totalWatchesContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100% !important;
+  text-align: center;
+  padding: 0.5rem;
+
+  span {
+    font-size: 1rem;
+    color: light-dark(var(--details), var(--text-aux-color));
+    text-align: center;
+    /* min-width: 100% !important; */
+
+    span {
+      font-weight: 600;
     }
   }
 }

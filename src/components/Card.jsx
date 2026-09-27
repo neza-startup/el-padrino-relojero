@@ -5,7 +5,7 @@ import { useCallback, useRef, useState } from "react";
 import Modal from '../components/ModalGallery';
 import styles from "../styles/Card.module.css";
 
-const Card = ({ id, name, description, images, price }) => {
+const Card = ({ id, name, description, images, price, inStock }) => {
 
   console.log("Card props:", { id, name, images, price });
 
@@ -105,6 +105,9 @@ const Card = ({ id, name, description, images, price }) => {
     );
   };
 
+  /* is available */
+  const isAvailable = inStock ? "Disponible" : "Agotado";
+
   return (
     <div className={`${styles.card} ${isHighlighted ? styles.highlighted : ''
       }`}
@@ -152,6 +155,10 @@ const Card = ({ id, name, description, images, price }) => {
         <figcaption className={styles.price}>${price} MXN</figcaption>
       </figure>
       {/* description */}
+
+      <span className={`${styles.availability} ${inStock ? styles.available : styles.unavailable}`}>
+        {isAvailable}
+      </span>
 
       <p className={styles.description}>
         {description}

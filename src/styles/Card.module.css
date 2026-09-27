@@ -244,6 +244,25 @@ div.card {
     margin-bottom: 0.5rem;
   } */
 
+  span.availability {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: center;
+    max-width: 18ch;
+    /* margin-bottom: 0.5rem; */
+
+    &.available {
+      color: #22C55E;
+      /* Green for available */
+    }
+
+    &.unavailable {
+      color: #EF4444;
+      /* Red for unavailable */
+    }
+  }
+
   p.description {
     font-size: 0.875rem;
     font-weight: 500;

@@ -328,12 +328,27 @@ function App() {
       result = result.filter((watch) => watch.brand === filter);
     }
 
-    const normalizedTerm = term.trim().toLowerCase();
+    const normalizeText = (value) =>
+      String(value ?? "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
 
-    if (normalizedTerm) {
-      result = result.filter((watch) =>
-        watch.name.toLowerCase().includes(normalizedTerm)
-      );
+    const searchWords = normalizeText(term)
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+    if (searchWords.length > 0) {
+      result = result.filter((watch) => {
+        const searchableText = normalizeText(
+          `${watch.name} ${watch.description} ${watch.price}`
+        );
+
+        return searchWords.some((word) =>
+          searchableText.includes(word)
+        );
+      });
     }
 
     if (order === "asc") {
@@ -407,6 +422,11 @@ function App() {
     setRecordsPerPage(items);
     reset();
   };
+
+  const searchWatches = (term) => {
+    setSearchTerm(term);
+    reset();
+  }
 
   return (
     <>
@@ -645,11 +665,15 @@ function App() {
               <option value="all">Todos</option>
               <option value="bestSeller">Más Vendidos</option>
               <optgroup label="Marcas">
-                <option value="Brand 1">Brand 1</option>
-                <option value="Brand 2">Brand 2</option>
+                {/* Gets the brands, removes duplicates, and converts the Set (collection of unique values) into an array. */}
+                {
+                  [...new Set(watchCatalog.map((watch) => watch.brand))].map((brand) => (
+                    <option key={brand} value={brand}>{brand}</option>
+                  ))
+                }
               </optgroup>
               <optgroup label="Disponibilidad">
-                <option value="inStock">En Stock</option>
+                <option value="inStock">Disponibles</option>
                 <option value="outOfStock">Agotados</option>
               </optgroup>
             </select>
@@ -669,7 +693,7 @@ function App() {
         {/* search input */}
         <div className={styles.searchContainer}>
           <label htmlFor="searchInput" className={styles.searchLabel}>Buscar:</label>
-          <input type="text" id='searchInput' name='searchInput' className={styles.searchInput} placeholder='Buscar por nombre...' /* onChange={(e) => {
+          <input type="text" id='searchInput' name='searchInput' className={styles.searchInput} placeholder='Buscar nombre, descripción, precio...' value={searchTerm} /* onChange={(e) => {
             const searchTerm = e.target.value.toLowerCase();
             const filteredWatches = watchCatalog.filter((watch) =>
               watch.name.toLowerCase().includes(searchTerm)
@@ -684,10 +708,7 @@ function App() {
 
               setWatches(filteredWatches);
               reset();
-            }} */ onChange={(e) => {
-              setSearchTerm(e.target.value);
-              reset();
-            }} />
+            }} */ onChange={(e) => { searchWatches(e.target.value); }} />
         </div>
 
         <div className={styles.showItemsContainer}>
@@ -697,8 +718,22 @@ function App() {
             <option value={20}>20 Relojes</option>
             <option value={watchCatalog.length}>Todos los Relojes</option>
           </select>
-          {/* en la página */}
+          por página.
         </div>
+
+        {(
+          currentFilter !== "all" ||
+          currentOrder !== "none" ||
+          searchTerm.trim() !== ""
+        ) && (
+            <div className={styles.resultsContainer}>
+              <span>
+                Resultados: <span>{watches.length}</span> {" "}
+                {watches.length === 1 ? "reloj" : "relojes"} de{" "}<span>
+                  {watchCatalog.length}</span> relojes en total.
+              </span>
+            </div>
+          )}
 
         {/* <div className={styles.searchContainer}>
           <input
@@ -721,7 +756,7 @@ function App() {
               <>
                 <div className={styles.cardsContainer}>
                   {pageValues.map((reloj) => (
-                    <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} />
+                    <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} inStock={reloj.inStock} />
                   ))}
                 </div>
               </>
@@ -756,6 +791,13 @@ function App() {
           <FontAwesomeIcon icon={faWhatsapp} className={styles.faWhatsappIcon} />
         </a>
         <span>Chatea con El Padrino</span>
+      </div>
+
+      {/* total number of watches */}
+      <div className={styles.totalWatchesContainer}>
+        <span>Total de relojes: <span>{watchCatalog.length}</span>.</span>
+
+        <span>Mostrando <span>{pageValues.length}</span> en la página.</span>
       </div>
 
       <PaginationButtons maxPage={maxPage} page={page} isDataGreaterThanPageSize={isDataGreaterThanPageSize} isFirstStep={isFirstStep} isLastStep={isLastStep} next={next} previous={previous} reset={reset} goTo={goTo} />

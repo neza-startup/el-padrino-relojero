@@ -58,8 +58,8 @@ function App() {
       inStock: true
     },
     {
-      id: 2,
-      name: 'Tissot PRX',
+      id: "bell-and-ross",
+      name: 'Bell-and-Ross',
       description: 'Descripción del Reloj 2',
       image: [
         cartierSantos1,
@@ -74,8 +74,8 @@ function App() {
       inStock: true
     },
     {
-      id: 3,
-      name: 'SEIKO Green',
+      id: "bulgari",
+      name: 'Bulgari',
       description: 'Descripción del Reloj 3',
       image: [
         cartierSantos1,
@@ -91,7 +91,7 @@ function App() {
     },
     {
       id: 4,
-      name: 'SEIKO PRESAGE',
+      name: 'Hublot',
       description: 'Descripción del Reloj 4',
       image: [
         cartierSantos1,
@@ -106,8 +106,8 @@ function App() {
       inStock: true
     },
     {
-      id: 5,
-      name: 'Fuck 9 - 5',
+      id: "rm",
+      name: 'RM',
       description: 'Descripción del Reloj 5',
       image: [
         cartierSantos1,
@@ -122,8 +122,8 @@ function App() {
       inStock: true
     },
     {
-      id: 6,
-      name: 'Tissot PRX',
+      id: "rolex",
+      name: 'Rolex',
       description: 'Descripción del Reloj 6',
       image: [
         cartierSantos1,

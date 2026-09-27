@@ -37,6 +37,7 @@ function App() {
   ]);
 
   const [watchCatalog, setWatchCatalog] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchWatches = async () => {
@@ -60,9 +61,9 @@ function App() {
       } catch (error) {
         console.error('Error fetching watches:', error);
         /* setError(error.message); */
-      }/*  finally {
+      } finally {
         setLoading(false);
-      } */
+      }
     };
 
     fetchWatches();
@@ -710,6 +711,11 @@ function App() {
         </div> */}
 
         <div className={styles.content}>
+          {
+            loading ? (
+              <div className={styles.loading}>Cargando catálogo de relojes...</div>
+            ) : null
+          }
           {
             tabs.find(tab => tab.active).name === 'Relojes' && (
               <>

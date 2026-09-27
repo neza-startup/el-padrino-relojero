@@ -1,27 +1,42 @@
 import Watch from '../models/watch.model.js';
 
-export const postWatch = (req, res) => {
-  const { id, name, description, images, price, brand, bestSeller, inStock } = req.body;
-  // Create a new watch
+export const postWatch = async (req, res) => {
+  try {
+    const {
+      id,
+      name,
+      description,
+      price,
+      brand,
+      bestSeller,
+      inStock
+    } = req.body;
 
-  const newWatch = new Watch({
-    id,
-    name,
-    description,
-    images,
-    price,
-    brand,
-    bestSeller,
-    inStock,
-  });
+    const images = req.files.map((file) => {
+      const base64 = file.buffer.toString('base64');
 
-  newWatch.save()
-    .then((watch) => {
-      res.status(201).json(watch);
-    })
-    .catch((error) => {
-      res.status(400).json({ error: error.message });
+      return `data:${file.mimetype};base64,${base64}`;
     });
+
+    const newWatch = new Watch({
+      id,
+      name,
+      description,
+      images,
+      price,
+      brand,
+      bestSeller: bestSeller === 'true',
+      inStock: inStock === 'true'
+    });
+
+    const watch = await newWatch.save();
+
+    res.status(201).json(watch);
+  } catch (error) {
+    res.status(400).json({
+      error: error.message
+    });
+  }
 };
 
 export const getAllWatches = (req, res) => {

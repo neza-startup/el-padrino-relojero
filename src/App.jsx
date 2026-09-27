@@ -9,10 +9,6 @@ import styles from './styles/App.module.css';
 /* import contact from '../assets/contact.svg'; */
 /* import nezaBorder from '../assets/neza-logo-border.svg'; */
 /* import Modal from './Modal'; */
-import cartierSantos1 from './assets/cartier-santos-1.png';
-import cartierSantos2 from './assets/cartier-santos-2.png';
-import cartierSantos3 from './assets/cartier-santos-3.png';
-import cartierSantos4 from './assets/cartier-santos-4.png';
 import nezaLogo from './assets/neza-logo.svg';
 import profile from './assets/profile.png';
 import profile_accesorios from './assets/profile_accesorios.jpg';
@@ -40,205 +36,43 @@ function App() {
     },
   ]);
 
-  const watchCatalog = [
-    {
-      id: "cartier-santos",
-      name: 'Cartier Santos',
-      description: 'Descripción del Cartier Santos',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$100',
-      /* link: 'https://www.tiktok.com/@elvisscochito' */
-      brand: 'Brand 1',
-      bestSeller: true,
-      inStock: true
-    },
-    {
-      id: "bell-and-ross",
-      name: 'Bell-and-Ross',
-      description: 'Descripción del Reloj 2',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$150',
-      /* link: 'https://www.instagram.com/elvisscochito/' */
-      brand: 'Brand 1',
-      bestSeller: false,
-      inStock: true
-    },
-    {
-      id: "bulgari",
-      name: 'Bulgari',
-      description: 'Descripción del Reloj 3',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$200',
-      /* link: 'https://wa.me/527771395795' */
-      brand: 'Brand 2',
-      bestSeller: true,
-      inStock: false
-    },
-    {
-      id: 4,
-      name: 'Hublot',
-      description: 'Descripción del Reloj 4',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$250',
-      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
-      brand: 'Brand 2',
-      bestSeller: false,
-      inStock: true
-    },
-    {
-      id: "rm",
-      name: 'RM',
-      description: 'Descripción del Reloj 5',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$100',
-      /* link: 'https://www.tiktok.com/@elvisscochito' */
-      brand: 'Brand 1',
-      bestSeller: true,
-      inStock: true
-    },
-    {
-      id: "rolex",
-      name: 'Rolex',
-      description: 'Descripción del Reloj 6',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$150',
-      /* link: 'https://www.instagram.com/elvisscochito/' */
-      brand: 'Brand 1',
-      bestSeller: false,
-      inStock: true
-    },
-    {
-      id: 7,
-      name: 'SEIKO Green',
-      description: 'Descripción del Reloj 7',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$200',
-      /* link: 'https://wa.me/527771395795' */
-      brand: 'Brand 2',
-      bestSeller: true,
-      inStock: false
-    },
-    {
-      id: 8,
-      name: 'SEIKO PRESAGE',
-      description: 'Descripción del Reloj 8',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$250',
-      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
-      brand: 'Brand 2',
-      bestSeller: false,
-      inStock: true
-    }, {
-      id: 9,
-      name: 'Fuck 9 - 5',
-      description: 'Descripción del Reloj 9',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$100',
-      /* link: 'https://www.tiktok.com/@elvisscochito' */
-      brand: 'Brand 1',
-      bestSeller: true,
-      inStock: true
-    },
-    {
-      id: 10,
-      name: 'Tissot PRX',
-      description: 'Descripción del Reloj 10',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$150',
-      /* link: 'https://www.instagram.com/elvisscochito/' */
-      brand: 'Brand 1',
-      bestSeller: false,
-      inStock: true
-    },
-    {
-      id: 11,
-      name: 'SEIKO Green',
-      description: 'Descripción del Reloj 11',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$200',
-      /* link: 'https://wa.me/527771395795' */
-      brand: 'Brand 2',
-      bestSeller: true,
-      inStock: false
-    },
-    {
-      id: 12,
-      name: 'SEIKO PRESAGE',
-      description: 'Descripción del Reloj 12',
-      image: [
-        cartierSantos1,
-        cartierSantos2,
-        cartierSantos3,
-        cartierSantos4
-      ],
-      price: '$250',
-      /* link: 'https://www.facebook.com/elvirodominguezsoriano/' */
-      brand: 'Brand 2',
-      bestSeller: false,
-      inStock: true
-    }
-  ];
+  const [watchCatalog, setWatchCatalog] = useState([]);
+
+  useEffect(() => {
+    const fetchWatches = async () => {
+      try {
+        const response = await fetch(
+          'http://localhost:3000/api/getWatches'
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          setWatchCatalog(data);
+          console.log(data[0]);
+        } else {
+          throw new Error('Unexpected data format');
+        }
+      } catch (error) {
+        console.error('Error fetching watches:', error);
+        /* setError(error.message); */
+      }/*  finally {
+        setLoading(false);
+      } */
+    };
+
+    fetchWatches();
+  }, []);
 
   /* const [currentFilter, setCurrentFilter] = useState('all');
   const [currentOrder, setCurrentOrder] = useState('none');
   const [watches, setWatches] = useState(watchCatalog); */
 
-  const recordsPerPage = 5;
+  const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   /* const { maxPage, page, isDataGreaterThanZero, isDataGreaterThanPageSize, isFirstStep, isLastStep, next, previous, reset, goTo, pageValues } = usePagination({
     values: watches,
@@ -568,6 +402,11 @@ function App() {
     reset();
   };
 
+  const showItemsPerPage = (items) => {
+    setRecordsPerPage(items);
+    reset();
+  };
+
   return (
     <>
       <Analytics />
@@ -650,7 +489,7 @@ function App() {
                   </div>
 
                   <div className={styles.stat}>
-                    <span>30+</span>
+                    <span>50+</span>
                     <span>Modelos</span>
                   </div>
                 </>
@@ -850,6 +689,16 @@ function App() {
             }} />
         </div>
 
+        <div className={styles.showItemsContainer}>
+          <label htmlFor="showItemsSelect" className={styles.showItemsLabel}>Mostrar: </label>
+          <select id='showItemsSelect' name='showItemsSelect' className={styles.showItemsSelect} value={recordsPerPage} onChange={(e) => { showItemsPerPage(Number(e.target.value)); }}>
+            <option value={10}>10 Relojes</option>
+            <option value={20}>20 Relojes</option>
+            <option value={watchCatalog.length}>Todos los Relojes</option>
+          </select>
+          {/* en la página */}
+        </div>
+
         {/* <div className={styles.searchContainer}>
           <input
             type="text"
@@ -866,7 +715,7 @@ function App() {
               <>
                 <div className={styles.cardsContainer}>
                   {pageValues.map((reloj) => (
-                    <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} image={reloj.image} price={reloj.price} />
+                    <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} />
                   ))}
                 </div>
               </>

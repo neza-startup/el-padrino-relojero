@@ -507,6 +507,47 @@ div.linkInBio {
     }
   }
 
+  div.showItemsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 24rem;
+
+    label.showItemsLabel {
+      font-size: 1rem;
+      /* font-weight: bold; */
+      /* color: light-dark(var(--details), var(--text-aux-color)); */
+      text-align: center;
+      /* min-width: 100% !important; */
+    }
+
+    select.showItemsSelect {
+      /* width: 100%; */
+      padding: 0.5rem 1rem;
+      /* background-color: light-dark(#F5F5F5, #1E1E1E); */
+      /* color: light-dark(var(--details), var(--text-aux-color));
+      border: 1px solid light-dark(var(--details), var(--text-aux-color)); */
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      background-color: light-dark(#F5F5F5, #1E1E1E);
+      padding: 0.5rem 1rem;
+      border: 1px solid light-dark(var(--details), var(--text-aux-color));
+
+      option {
+        /* color: light-dark(var(--details), var(--text-aux-color)); */
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+  }
+
   div.content {
     display: flex;
     flex-direction: column;

@@ -5,9 +5,9 @@ import { useCallback, useRef, useState } from "react";
 import Modal from '../components/ModalGallery';
 import styles from "../styles/Card.module.css";
 
-const Card = ({ id, name, description, image, price }) => {
+const Card = ({ id, name, description, images, price }) => {
 
-  console.log("Card props:", { id, name, image, price });
+  console.log("Card props:", { id, name, images, price });
 
   const isHighlighted = window.location.hash === `#watch-${id}`;
 
@@ -53,7 +53,7 @@ const Card = ({ id, name, description, image, price }) => {
   const sliderRef = useRef(null);
 
   const goToImage = useCallback((index) => {
-    const nextIndex = (index + image.length) % image.length;
+    const nextIndex = (index + images.length) % images.length;
     const slider = sliderRef.current;
 
     slider?.scrollTo({
@@ -62,7 +62,7 @@ const Card = ({ id, name, description, image, price }) => {
     });
 
     setCurrentIndex(nextIndex);
-  }, [image.length]);
+  }, [images.length]);
 
   const handleLeft = () => goToImage(currentIndex - 1);
   const handleRight = () => goToImage(currentIndex + 1);
@@ -98,7 +98,7 @@ const Card = ({ id, name, description, image, price }) => {
     modalRef.current?.open(
       {
         title: `Galería de ${name}`,
-        images: image,
+        images: images,
         message: description,
         btn: "Cerrar",
       }
@@ -123,7 +123,7 @@ const Card = ({ id, name, description, image, price }) => {
           } */}
 
           <div className={styles.slider} ref={sliderRef} onScroll={handleScroll}>
-            {image.map((imgSrc, index) => (
+            {images.map((imgSrc, index) => (
               <img key={index} src={imgSrc} alt={`${name} ${index + 1}`} className={styles.image} onClick={openModalGallery} />
             ))}
           </div>
@@ -135,7 +135,7 @@ const Card = ({ id, name, description, image, price }) => {
           </button>
           <div className={styles.dotsContainer}>
             {
-              image.map((_, index) => (
+              images.map((_, index) => (
                 <span
                   key={index}
                   className={`${styles.dot} ${index === currentIndex ? styles.active : styles.inactive
@@ -149,7 +149,7 @@ const Card = ({ id, name, description, image, price }) => {
             }
           </div>
         </div>
-        <figcaption className={styles.price}>{price}</figcaption>
+        <figcaption className={styles.price}>${price} MXN</figcaption>
       </figure>
       {/* description */}
 

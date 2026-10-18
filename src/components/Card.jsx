@@ -5,7 +5,7 @@ import { useCallback, useRef, useState } from "react";
 import Modal from '../components/ModalGallery';
 import styles from "../styles/Card.module.css";
 
-const Card = ({ id, name, description, images, price, inStock }) => {
+const Card = ({ id, name, description, images, price, brand, inStock }) => {
 
   console.log("Card props:", { id, name, images, price });
 
@@ -114,6 +114,7 @@ const Card = ({ id, name, description, images, price, inStock }) => {
       id={`watch-${id}`}>
       {/* <p>{description}</p> */}
       <h4>{name}</h4>
+      <h5>{brand}</h5>
       <figure className={styles.figure}>
         <div className={styles.imageContainer} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           <button className={styles.left} onClick={handleLeft} aria-label="Imagen anterior">
@@ -164,7 +165,7 @@ const Card = ({ id, name, description, images, price, inStock }) => {
         {description}
       </p>
 
-      <a href={`https://wa.me/527771395795?text=Hola,%20estoy%20interesado%20en%20el%20reloj%20${name}`} target="_blank" rel="noopener noreferrer">
+      <a href={`https://wa.me/528120771233?text=Hola,%20estoy%20interesado%20en%20el%20reloj%20${name}`} target="_blank" rel="noopener noreferrer">
         <FontAwesomeIcon icon={faWhatsapp} className={styles.icon} />
         ¡Lo quiero!
       </a>

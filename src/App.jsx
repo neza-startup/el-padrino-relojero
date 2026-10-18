@@ -342,7 +342,7 @@ function App() {
     if (searchWords.length > 0) {
       result = result.filter((watch) => {
         const searchableText = normalizeText(
-          `${watch.name} ${watch.description} ${watch.price}`
+          `${watch.name} ${watch.brand} ${watch.description} ${watch.price}`
         );
 
         return searchWords.some((word) =>
@@ -766,7 +766,7 @@ function App() {
                     <>
                       <div className={styles.cardsContainer}>
                         {pageValues.map((reloj) => (
-                          <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} inStock={reloj.inStock} />
+                          <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} brand={reloj.brand} inStock={reloj.inStock} />
                         ))}
                       </div>
                     </>
@@ -799,7 +799,7 @@ function App() {
       </div >
 
       <div className={styles.whatsAppButtonContainer}>
-        <a className={styles.faWhatsappButton} href='https://wa.me/527771204363' target='_blank' rel="noopener noreferrer">
+        <a className={styles.faWhatsappButton} href='https://wa.me/528120771233' target='_blank' rel="noopener noreferrer">
           <FontAwesomeIcon icon={faWhatsapp} className={styles.faWhatsappIcon} />
         </a>
         <span>Chatea con El Padrino</span>

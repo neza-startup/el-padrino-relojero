@@ -3,7 +3,6 @@ import Watch from '../models/watch.model.js';
 export const postWatch = async (req, res) => {
   try {
     const {
-      id,
       name,
       description,
       price,
@@ -19,7 +18,7 @@ export const postWatch = async (req, res) => {
     });
 
     const newWatch = new Watch({
-      id,
+      id: `${brand}-${name}`.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-'),
       name,
       description,
       images,

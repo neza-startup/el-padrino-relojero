@@ -165,7 +165,7 @@ const Card = ({ id, name, description, images, price, brand, inStock }) => {
         {description}
       </p>
 
-      <a href={`https://wa.me/528120771233?text=Hola,%20estoy%20interesado%20en%20el%20reloj%20${name}`} target="_blank" rel="noopener noreferrer">
+      <a href={`https://wa.me/528120771233?text=Hola,%20estoy%20interesado%20en%20el%20reloj%20${brand}%20${name}`} target="_blank" rel="noopener noreferrer">
         <FontAwesomeIcon icon={faWhatsapp} className={styles.icon} />
         ¡Lo quiero!
       </a>

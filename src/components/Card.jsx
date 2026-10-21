@@ -113,8 +113,8 @@ const Card = ({ id, name, description, images, price, brand, inStock }) => {
       }`}
       id={`watch-${id}`}>
       {/* <p>{description}</p> */}
-      <h4>{name}</h4>
       <h5>{brand}</h5>
+      <h4>{name}</h4>
       <figure className={styles.figure}>
         <div className={styles.imageContainer} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           <button className={styles.left} onClick={handleLeft} aria-label="Imagen anterior">

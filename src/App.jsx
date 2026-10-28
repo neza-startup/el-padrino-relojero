@@ -324,6 +324,8 @@ function App() {
       result = result.filter((watch) => watch.inStock);
     } else if (filter === "outOfStock") {
       result = result.filter((watch) => !watch.inStock);
+    } else if (filter === "isForWoman") {
+      result = result.filter((watch) => watch.isForWoman === true);
     } else if (filter !== "all") {
       result = result.filter((watch) => watch.brand === filter);
     }
@@ -675,6 +677,12 @@ function App() {
               <optgroup label="Disponibilidad">
                 <option value="inStock">Disponibles</option>
                 <option value="outOfStock">Agotados</option>
+              </optgroup>
+
+              <optgroup label="Género">
+                <option value="isForWoman">Para Mujer</option>
+                {/* <option value="isForMan">Para Hombre</option>
+                <option value="isForUnisex">Unisex</option> */}
               </optgroup>
             </select>
           </div>

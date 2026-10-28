@@ -35,6 +35,10 @@ const WatchSchema = new moongose.Schema(
       type: Boolean,
       default: true,
     },
+    isForWoman: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

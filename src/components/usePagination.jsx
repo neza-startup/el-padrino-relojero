@@ -11,11 +11,11 @@ export default function usePagination({ values: values_, pageSize }) {
 
   const next = useCallback(() => {
     setPage((page) => Math.min(page + 1, maxPage - 1));
-  });
+  }, [maxPage]);
 
   const previous = useCallback(() => {
     setPage((page) => Math.max(page - 1, 0));
-  });
+  }, []);
 
   const pageValues = useMemo(
     () => values.slice(page * pageSize, (page + 1) * pageSize),
@@ -24,11 +24,11 @@ export default function usePagination({ values: values_, pageSize }) {
 
   const reset = useCallback(() => {
     setPage(0);
-  });
+  }, []);
 
   const goTo = useCallback((index) => {
     setPage(index);
-  });
+  }, []);
 
   return {
     maxPage,

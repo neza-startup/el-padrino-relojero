@@ -38,6 +38,16 @@ function App() {
 
   const [watchCatalog, setWatchCatalog] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [watchHash, setWatchHash] = useState(() => window.location.hash);
+  const handledWatchHash = useRef(null);
+
+  useEffect(() => {
+    const handleHashChange = () => setWatchHash(window.location.hash);
+
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   useEffect(() => {
     const fetchWatches = async () => {
@@ -255,9 +265,11 @@ function App() {
     }
   }, [tabs]);
 
-  /* validate if the watch id in the URL hash exists in the watchCatalog, if not, remove the hash from the URL */
+  /* validate the watch id after the catalog has loaded */
   useEffect(() => {
-    const hash = window.location.hash;
+    if (loading) return;
+
+    const hash = watchHash;
 
     if (!hash.startsWith('#watch-')) return;
 
@@ -274,7 +286,7 @@ function App() {
         `${window.location.pathname}?tab=Relojes`
       );
     }
-  }, []);
+  }, [loading, watchCatalog, watchHash]);
 
   const handleShare = () => {
     const shareData = {
@@ -376,24 +388,6 @@ function App() {
     searchTerm
   );
 
-  /* Scroll to a specific watch when the URL hash changes */
-  useEffect(() => {
-    if (!window.location.hash) return;
-
-    const scrollToWatch = () => {
-      const element = document.querySelector(window.location.hash);
-
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        });
-      }
-    };
-
-    setTimeout(scrollToWatch, 300);
-  }, [watches]);
-
   const {
     maxPage,
     page,
@@ -409,6 +403,44 @@ function App() {
     values: watches,
     pageSize: recordsPerPage
   });
+
+  /* Navigate to and scroll to a watch referenced by the URL hash */
+  useEffect(() => {
+    const hash = watchHash;
+
+    if (!hash.startsWith('#watch-')) return;
+    if (handledWatchHash.current === hash) return;
+
+    const watchId = hash.replace('#watch-', '');
+    const watchIndex = watches.findIndex(
+      (watch) => String(watch.id) === watchId
+    );
+
+    if (watchIndex === -1) return;
+
+    const targetPage = Math.floor(watchIndex / recordsPerPage);
+
+    if (page !== targetPage) {
+      goTo(targetPage);
+      return;
+    }
+
+    const scrollToWatch = () => {
+      const element = document.getElementById(`watch-${watchId}`);
+
+      if (!element) return;
+
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+      handledWatchHash.current = hash;
+    };
+
+    const timeoutId = setTimeout(scrollToWatch, 50);
+
+    return () => clearTimeout(timeoutId);
+  }, [goTo, page, recordsPerPage, watchHash, watches]);
 
   const filterWatches = (filter) => {
     setCurrentFilter(filter);

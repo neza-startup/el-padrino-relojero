@@ -18,6 +18,15 @@ div.paginationButtons {
   margin-bottom: 1rem;
 }
 
+.ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1rem;
+  color: #30343b;
+  font-weight: 700;
+}
+
 div.paginationButtons button,
 div.paginationButtons input[type="number"] {
   border: none;

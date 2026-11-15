@@ -37,7 +37,9 @@ function App() {
   ]);
 
   const [watchCatalog, setWatchCatalog] = useState([]);
+  const [accessoryCatalog, setAccessoryCatalog] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingAccessories, setLoadingAccessories] = useState(true);
   const [watchHash, setWatchHash] = useState(() => window.location.hash);
   const handledWatchHash = useRef(null);
 
@@ -77,6 +79,35 @@ function App() {
     };
 
     fetchWatches();
+  }, []);
+
+  useEffect(() => {
+    const fetchAccessories = async () => {
+      try {
+        const response = await fetch(
+          '/api/getAccessories'
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          setAccessoryCatalog(data);
+          console.log(data[0]);
+        } else {
+          throw new Error('Unexpected data format');
+        }
+      } catch (error) {
+        console.error('Error fetching accessories:', error);
+      } finally {
+        setLoadingAccessories(false);
+      }
+    };
+
+    fetchAccessories();
   }, []);
 
   /* const [currentFilter, setCurrentFilter] = useState('all');
@@ -404,6 +435,22 @@ function App() {
     pageSize: recordsPerPage
   });
 
+  const {
+    maxPage: maxPageAccessories,
+    page: pageAccessories,
+    isDataGreaterThanPageSize: isDataGreaterThanPageSizeAccessories,
+    isFirstStep: isFirstStepAccessories,
+    isLastStep: isLastStepAccessories,
+    next: nextAccessories,
+    previous: previousAccessories,
+    reset: resetAccessories,
+    goTo: goToAccessories,
+    pageValues: pageValuesAccessories
+  } = usePagination({
+    values: accessoryCatalog,
+    pageSize: recordsPerPage
+  });
+
   /* Navigate to and scroll to a watch referenced by the URL hash */
   useEffect(() => {
     const hash = watchHash;
@@ -693,41 +740,50 @@ function App() {
 
         {/* select filter by watch Brand */}
         <div className={styles.filterAndOrderContainer}>
-          <div className={styles.filterContainer}>
-            <label htmlFor="filterSelect" className={styles.filterLabel}>Filtrar por:</label>
-            <select id='filterSelect' name='filterSelect' className={styles.filterSelect} value={currentFilter} onChange={(e) => filterWatches(e.target.value)}>
-              <option value="all">Todos</option>
-              <option value="bestSeller">Más Vendidos</option>
-              <optgroup label="Marcas">
-                {/* Gets the brands, removes duplicates, and converts the Set (collection of unique values) into an array. */}
-                {
-                  [...new Set(watchCatalog.map((watch) => watch.brand))].map((brand) => (
-                    <option key={brand} value={brand}>{brand}</option>
-                  ))
-                }
-              </optgroup>
-              <optgroup label="Disponibilidad">
-                <option value="inStock">Disponibles</option>
-                <option value="outOfStock">Agotados</option>
-              </optgroup>
+          {
+            tabs.find(tab => tab.active).name === 'Relojes' && (
+              <div className={styles.filterContainer}>
+                <label htmlFor="filterSelect" className={styles.filterLabel}>Filtrar por:</label>
+                <select id='filterSelect' name='filterSelect' className={styles.filterSelect} value={currentFilter} onChange={(e) => filterWatches(e.target.value)}>
+                  <option value="all">Todos</option>
+                  <option value="bestSeller">Más Vendidos</option>
+                  <optgroup label="Marcas">
+                    {/* Gets the brands, removes duplicates, and converts the Set (collection of unique values) into an array. */}
+                    {
+                      [...new Set(watchCatalog.map((watch) => watch.brand))].map((brand) => (
+                        <option key={brand} value={brand}>{brand}</option>
+                      ))
+                    }
+                  </optgroup>
+                  <optgroup label="Disponibilidad">
+                    <option value="inStock">Disponibles</option>
+                    <option value="outOfStock">Agotados</option>
+                  </optgroup>
 
-              <optgroup label="Género">
-                <option value="isForWoman">Para Mujer</option>
-                {/* <option value="isForMan">Para Hombre</option>
+                  <optgroup label="Género">
+                    <option value="isForWoman">Para Mujer</option>
+                    {/* <option value="isForMan">Para Hombre</option>
                 <option value="isForUnisex">Unisex</option> */}
-              </optgroup>
-            </select>
-          </div>
+                  </optgroup>
+                </select>
+              </div>
+            )
+          }
 
           {/* select order by price */}
-          <div className={styles.orderContainer}>
-            <label htmlFor="orderSelect" className={styles.orderLabel}>Ordenar por precio:</label>
-            <select id='orderSelect' name='orderSelect' className={styles.orderSelect} value={currentOrder} onChange={(e) => orderWatchesByPrice(e.target.value)}>
-              <option value="none">Ninguno</option>
-              <option value="asc">Menor a Mayor</option>
-              <option value="desc">Mayor a Menor</option>
-            </select>
-          </div>
+
+          {
+            tabs.find(tab => tab.active).name === 'Relojes' && (
+              <div className={styles.orderContainer}>
+                <label htmlFor="orderSelect" className={styles.orderLabel}>Ordenar por precio:</label>
+                <select id='orderSelect' name='orderSelect' className={styles.orderSelect} value={currentOrder} onChange={(e) => orderWatchesByPrice(e.target.value)}>
+                  <option value="none">Ninguno</option>
+                  <option value="asc">Menor a Mayor</option>
+                  <option value="desc">Mayor a Menor</option>
+                </select>
+              </div>
+            )
+          }
         </div>
 
         {/* search input */}
@@ -752,13 +808,20 @@ function App() {
         </div>
 
         <div className={styles.showItemsContainer}>
-          <label htmlFor="showItemsSelect" className={styles.showItemsLabel}>Mostrar: </label>
-          <select id='showItemsSelect' name='showItemsSelect' className={styles.showItemsSelect} value={recordsPerPage} onChange={(e) => { showItemsPerPage(Number(e.target.value)); }}>
-            <option value={10}>10 Relojes</option>
-            <option value={20}>20 Relojes</option>
-            <option value={watchCatalog.length}>Todos los Relojes</option>
-          </select>
-          por página.
+          {
+            tabs.find(tab => tab.active).name === 'Relojes' && (
+              <>
+                <label htmlFor="showItemsSelect" className={styles.showItemsLabel}>Mostrar: </label>
+                <select id='showItemsSelect' name='showItemsSelect' className={styles.showItemsSelect} value={recordsPerPage} onChange={(e) => { showItemsPerPage(Number(e.target.value)); }}>
+                  <option value={10}>10 Relojes</option>
+                  <option value={20}>20 Relojes</option>
+                  <option value={watchCatalog.length}>Todos los Relojes</option>
+                </select>
+                por página.
+              </>
+
+            )
+          }
         </div>
 
         {(
@@ -785,54 +848,50 @@ function App() {
           />
         </div> */}
 
-        <div className={styles.content}>
-          {
-            isOnDevelopment ? (
-              <div className={styles.developmentMessage}>
-                <p>
-                  <span>Trabajando en el catálogo de relojes.</span>
-                  <span>Muy pronto estará disponible.</span>
-                </p>
+        {
+          activeTab.name === 'Relojes' ? (
+            <div className={styles.content}>
+              {
+                isOnDevelopment ? (
+                  <div className={styles.developmentMessage}>
+                    <p>
+                      <span>Trabajando en el catálogo de relojes.</span>
+                      <span>Muy pronto estará disponible.</span>
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    {
+                      loading ? (
+                        <div className={styles.loading}>Cargando catálogo de relojes...</div>
+                      ) : null
+                    }
+
+                    <div className={styles.cardsContainer}>
+                      {pageValues.map((reloj) => (
+                        <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} brand={reloj.brand} inStock={reloj.inStock} />
+                      ))}
+                    </div>
+                  </>
+                )
+              }
+            </div>
+          ) : (
+            <div className={styles.content}>
+              {
+                loadingAccessories ? (
+                  <div className={styles.loading}>Cargando catálogo de accesorios...</div>
+                ) : null
+              }
+
+              <div className={styles.cardsContainer}>
+                {pageValuesAccessories.map((accesorio) => (
+                  <Card key={accesorio.id} id={accesorio.id} name={accesorio.name} description={accesorio.description} images={accesorio.images} price={accesorio.price} brand={accesorio.brand} inStock={accesorio.inStock} />
+                ))}
               </div>
-            ) :
-              <>
-                {
-                  loading ? (
-                    <div className={styles.loading}>Cargando catálogo de relojes...</div>
-                  ) : null
-                }
-                {
-                  tabs.find(tab => tab.active).name === 'Relojes' && (
-                    <>
-                      <div className={styles.cardsContainer}>
-                        {pageValues.map((reloj) => (
-                          <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} brand={reloj.brand} inStock={reloj.inStock} />
-                        ))}
-                      </div>
-                    </>
-                  )
-                }
-              </>
-          }
-          {/* {
-            tabs.find(tab => tab.active).name === 'Projects' && (
-              <>
-                <a href="https://www.nezastartup.com/link-in-bio" target="_blank" rel="noopener noreferrer" className={styles.linkButtonProjects}>
-                  <img src={neza} alt="Neza Logo" className={styles.icon} />
-                  Neza Startup
-                </a>
-                <a href="https://www.corncrunch.com/link-in-bio" target="_blank" rel="noopener noreferrer" className={styles.linkButtonProjects}>
-                  <img src={corncrunch} alt="Corn Crunch Logo" className={styles.icon} />
-                  Corn Crunch
-                </a>
-                <a href="https://www.instagram.com/mycover_app/" target="_blank" rel="noopener noreferrer" className={styles.linkButtonProjects}>
-                  <FontAwesomeIcon icon={faMobile} className={styles.icon} />
-                  myCover App
-                </a>
-              </>
-            )
-          } */}
-        </div>
+            </div>
+          )
+        }
 
         <Modal ref={modalRef} />
         <ModalPolicies ref={modalPoliciesRef} />
@@ -845,14 +904,42 @@ function App() {
         <span>Chatea con El Padrino</span>
       </div>
 
-      {/* total number of watches */}
-      <div className={styles.totalWatchesContainer}>
-        <span>Total de relojes: <span>{watchCatalog.length}</span>.</span>
+      {
+        tabs.find(tab => tab.active).name === 'Relojes' && (
+          /* total number of watches */
+          <div className={styles.totalWatchesContainer}>
+            <span>Total de relojes: <span>{watchCatalog.length}</span>.</span>
 
-        <span>Mostrando <span>{pageValues.length}</span> en la página.</span>
-      </div>
+            <span>Mostrando <span>{pageValues.length}</span> en la página.</span>
+          </div>
+        )
+      }
 
-      <PaginationButtons maxPage={maxPage} page={page} isDataGreaterThanPageSize={isDataGreaterThanPageSize} isFirstStep={isFirstStep} isLastStep={isLastStep} next={next} previous={previous} reset={reset} goTo={goTo} />
+      {activeTab.name === 'Relojes' ? (
+        <PaginationButtons
+          maxPage={maxPage}
+          page={page}
+          isDataGreaterThanPageSize={isDataGreaterThanPageSize}
+          isFirstStep={isFirstStep}
+          isLastStep={isLastStep}
+          next={next}
+          previous={previous}
+          reset={reset}
+          goTo={goTo}
+        />
+      ) : (
+        <PaginationButtons
+          maxPage={maxPageAccessories}
+          page={pageAccessories}
+          isDataGreaterThanPageSize={isDataGreaterThanPageSizeAccessories}
+          isFirstStep={isFirstStepAccessories}
+          isLastStep={isLastStepAccessories}
+          next={nextAccessories}
+          previous={previousAccessories}
+          reset={resetAccessories}
+          goTo={goToAccessories}
+        />
+      )}
 
       <footer className={styles.footer}>
         <span className={styles.footerText}>Copyright &#169; {new Date().getFullYear()}. El Padrino Relojero. Todos los derechos reservados.{/* </span> */}

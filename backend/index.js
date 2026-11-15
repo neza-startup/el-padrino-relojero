@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import morgan from "morgan";
 import connectDB from './db.js';
+import accessoryRoutes from './routes/accessories.js';
 import watchRoutes from './routes/watches.js';
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', watchRoutes);
+app.use('/api', accessoryRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

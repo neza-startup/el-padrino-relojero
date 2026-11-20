@@ -3,13 +3,13 @@ import Watch from '../models/watch.model.js';
 export const postWatch = async (req, res) => {
   try {
     const {
-      id,
       name,
       description,
       price,
       brand,
       bestSeller,
-      inStock
+      inStock,
+      isForWoman
     } = req.body;
 
     const images = req.files.map((file) => {
@@ -19,14 +19,15 @@ export const postWatch = async (req, res) => {
     });
 
     const newWatch = new Watch({
-      id,
+      id: `${brand}-${name}`.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-'),
       name,
       description,
       images,
       price,
       brand,
       bestSeller: bestSeller === 'true',
-      inStock: inStock === 'true'
+      inStock: inStock === 'true',
+      isForWoman: isForWoman === 'true'
     });
 
     const watch = await newWatch.save();
@@ -66,9 +67,9 @@ export const getWatchById = (req, res) => {
 
 export const updateWatch = (req, res) => {
   const { id } = req.params;
-  const { name, description, /* image, */ price, brand, bestSeller, inStock } = req.body;
+  const { name, description, /* image, */ price, brand, bestSeller, inStock, isForWoman } = req.body;
 
-  Watch.findByIdAndUpdate(id, { name, description, /* image, */ price, brand, bestSeller, inStock }, { new: true })
+  Watch.findByIdAndUpdate(id, { name, description, /* image, */ price, brand, bestSeller, inStock, isForWoman }, { new: true })
     .then((watch) => {
       if (!watch) {
         return res.status(404).json({ error: 'Watch not found' });

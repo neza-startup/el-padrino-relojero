@@ -755,10 +755,19 @@ function App() {
               <FontAwesomeIcon icon={faPhone} className={styles.icon} />
               Tel&eacute;fono
             </a>
-            <a href="https://www.instagram.com/elpadrino_relojero/" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
-              <FontAwesomeIcon icon={faInstagram} className={styles.icon} />
-              Instagram
-            </a>
+            {
+              tabs.find(tab => tab.active).name === 'Relojes' ? (
+                <a href="https://www.instagram.com/elpadrino_relojero/" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
+                  <FontAwesomeIcon icon={faInstagram} className={styles.icon} />
+                  Instagram
+                </a>
+              ) : (
+                <a href="https://www.instagram.com/elpadrino_accesorios/" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
+                  <FontAwesomeIcon icon={faInstagram} className={styles.icon} />
+                  Instagram
+                </a>
+              )
+            }
             <span onClick={handleShare} className={styles.headerLink}>
               <FontAwesomeIcon icon={faShare} className={styles.icon} />
               Share

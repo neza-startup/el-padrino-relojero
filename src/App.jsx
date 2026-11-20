@@ -357,6 +357,18 @@ function App() {
   const [currentFilter, setCurrentFilter] = useState("all");
   const [currentOrder, setCurrentOrder] = useState("none");
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentAccessoryFilter, setCurrentAccessoryFilter] = useState("all");
+  const [currentAccessoryOrder, setCurrentAccessoryOrder] = useState("none");
+  const [accessorySearchTerm, setAccessorySearchTerm] = useState("");
+
+  const normalizeText = (value) =>
+    String(value ?? "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  const getNumericPrice = (price) =>
+    Number(String(price ?? "").replace(/[^0-9.-]/g, ""));
 
   const getFilteredAndSortedWatches = (filter, order, term) => {
     let result = [...watchCatalog];
@@ -372,12 +384,6 @@ function App() {
     } else if (filter !== "all") {
       result = result.filter((watch) => watch.brand === filter);
     }
-
-    const normalizeText = (value) =>
-      String(value ?? "")
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
 
     const searchWords = normalizeText(term)
       .trim()
@@ -397,17 +403,50 @@ function App() {
     }
 
     if (order === "asc") {
-      result.sort(
-        (a, b) =>
-          Number(a.price.replace("$", "")) -
-          Number(b.price.replace("$", ""))
-      );
+      result.sort((a, b) => getNumericPrice(a.price) - getNumericPrice(b.price));
     } else if (order === "desc") {
-      result.sort(
-        (a, b) =>
-          Number(b.price.replace("$", "")) -
-          Number(a.price.replace("$", ""))
-      );
+      result.sort((a, b) => getNumericPrice(b.price) - getNumericPrice(a.price));
+    }
+
+    return result;
+  };
+
+  const getFilteredAndSortedAccessories = (filter, order, term) => {
+    let result = [...accessoryCatalog];
+
+    if (filter === "bestSeller") {
+      result = result.filter((accessory) => accessory.bestSeller);
+    } else if (filter === "inStock") {
+      result = result.filter((accessory) => accessory.inStock);
+    } else if (filter === "outOfStock") {
+      result = result.filter((accessory) => !accessory.inStock);
+    } else if (filter === "isForWoman") {
+      result = result.filter((accessory) => accessory.isForWoman === true);
+    } else if (filter !== "all") {
+      result = result.filter((accessory) => accessory.brand === filter);
+    }
+
+    const searchWords = normalizeText(term)
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+    if (searchWords.length > 0) {
+      result = result.filter((accessory) => {
+        const searchableText = normalizeText(
+          `${accessory.name} ${accessory.brand} ${accessory.description} ${accessory.price}`
+        );
+
+        return searchWords.some((word) =>
+          searchableText.includes(word)
+        );
+      });
+    }
+
+    if (order === "asc") {
+      result.sort((a, b) => getNumericPrice(a.price) - getNumericPrice(b.price));
+    } else if (order === "desc") {
+      result.sort((a, b) => getNumericPrice(b.price) - getNumericPrice(a.price));
     }
 
     return result;
@@ -417,6 +456,12 @@ function App() {
     currentFilter,
     currentOrder,
     searchTerm
+  );
+
+  const accessories = getFilteredAndSortedAccessories(
+    currentAccessoryFilter,
+    currentAccessoryOrder,
+    accessorySearchTerm
   );
 
   const {
@@ -447,7 +492,7 @@ function App() {
     goTo: goToAccessories,
     pageValues: pageValuesAccessories
   } = usePagination({
-    values: accessoryCatalog,
+    values: accessories,
     pageSize: recordsPerPage
   });
 
@@ -508,6 +553,21 @@ function App() {
     setSearchTerm(term);
     reset();
   }
+
+  const filterAccessories = (filter) => {
+    setCurrentAccessoryFilter(filter);
+    resetAccessories();
+  };
+
+  const orderAccessoriesByPrice = (order) => {
+    setCurrentAccessoryOrder(order);
+    resetAccessories();
+  };
+
+  const searchAccessories = (term) => {
+    setAccessorySearchTerm(term);
+    resetAccessories();
+  };
 
   return (
     <>
@@ -769,6 +829,31 @@ function App() {
               </div>
             )
           }
+          {
+            tabs.find(tab => tab.active).name === 'Accesorios' && (
+              <div className={styles.filterContainer}>
+                <label htmlFor="filterAccessorySelect" className={styles.filterLabel}>Filtrar por:</label>
+                <select id='filterAccessorySelect' name='filterAccessorySelect' className={styles.filterSelect} value={currentAccessoryFilter} onChange={(e) => filterAccessories(e.target.value)}>
+                  <option value="all">Todos</option>
+                  <option value="bestSeller">Más Vendidos</option>
+                  <optgroup label="Marcas">
+                    {
+                      [...new Set(accessoryCatalog.map((accessory) => accessory.brand))].map((brand) => (
+                        <option key={brand} value={brand}>{brand}</option>
+                      ))
+                    }
+                  </optgroup>
+                  <optgroup label="Disponibilidad">
+                    <option value="inStock">Disponibles</option>
+                    <option value="outOfStock">Agotados</option>
+                  </optgroup>
+                  <optgroup label="Género">
+                    <option value="isForWoman">Para Mujer</option>
+                  </optgroup>
+                </select>
+              </div>
+            )
+          }
 
           {/* select order by price */}
 
@@ -784,27 +869,34 @@ function App() {
               </div>
             )
           }
+          {
+            tabs.find(tab => tab.active).name === 'Accesorios' && (
+              <div className={styles.orderContainer}>
+                <label htmlFor="orderAccessorySelect" className={styles.orderLabel}>Ordenar por precio:</label>
+                <select id='orderAccessorySelect' name='orderAccessorySelect' className={styles.orderSelect} value={currentAccessoryOrder} onChange={(e) => orderAccessoriesByPrice(e.target.value)}>
+                  <option value="none">Ninguno</option>
+                  <option value="asc">Menor a Mayor</option>
+                  <option value="desc">Mayor a Menor</option>
+                </select>
+              </div>
+            )
+          }
         </div>
 
         {/* search input */}
         <div className={styles.searchContainer}>
           <label htmlFor="searchInput" className={styles.searchLabel}>Buscar:</label>
-          <input type="text" id='searchInput' name='searchInput' className={styles.searchInput} placeholder='Buscar nombre, descripción, precio...' value={searchTerm} /* onChange={(e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const filteredWatches = watchCatalog.filter((watch) =>
-              watch.name.toLowerCase().includes(searchTerm)
-            );
-            setWatches(filteredWatches);
-          }} */ /* onChange={(e) => {
-              const searchTerm = e.target.value.toLowerCase().trim();
-
-              const filteredWatches = watchCatalog.filter((watch) =>
-                watch.name.toLowerCase().includes(searchTerm)
-              );
-
-              setWatches(filteredWatches);
-              reset();
-            }} */ onChange={(e) => { searchWatches(e.target.value); }} />
+          <input
+            type="text"
+            id='searchInput'
+            name='searchInput'
+            className={styles.searchInput}
+            placeholder='Buscar nombre, descripción, precio...'
+            value={activeTab.name === 'Relojes' ? searchTerm : accessorySearchTerm}
+            onChange={(e) => activeTab.name === 'Relojes'
+              ? searchWatches(e.target.value)
+              : searchAccessories(e.target.value)}
+          />
         </div>
 
         <div className={styles.showItemsContainer}>
@@ -822,18 +914,37 @@ function App() {
 
             )
           }
+          {
+            tabs.find(tab => tab.active).name === 'Accesorios' && (
+              <>
+                <label htmlFor="showAccessoryItemsSelect" className={styles.showItemsLabel}>Mostrar: </label>
+                <select id='showAccessoryItemsSelect' name='showAccessoryItemsSelect' className={styles.showItemsSelect} value={recordsPerPage} onChange={(e) => { setRecordsPerPage(Number(e.target.value)); resetAccessories(); }}>
+                  <option value={10}>10 Accesorios</option>
+                  <option value={20}>20 Accesorios</option>
+                  <option value={accessoryCatalog.length}>Todos los Accesorios</option>
+                </select>
+                por página.
+              </>
+            )
+          }
         </div>
 
         {(
-          currentFilter !== "all" ||
-          currentOrder !== "none" ||
-          searchTerm.trim() !== ""
+          activeTab.name === 'Relojes'
+            ? currentFilter !== "all" || currentOrder !== "none" || searchTerm.trim() !== ""
+            : currentAccessoryFilter !== "all" || currentAccessoryOrder !== "none" || accessorySearchTerm.trim() !== ""
         ) && (
             <div className={styles.resultsContainer}>
               <span>
-                Resultados: <span>{watches.length}</span> {" "}
-                {watches.length === 1 ? "reloj" : "relojes"} de{" "}<span>
-                  {watchCatalog.length}</span> relojes en total.
+                {activeTab.name === 'Relojes' ? (
+                  <>Resultados: <span>{watches.length}</span> {" "}
+                    {watches.length === 1 ? "reloj" : "relojes"} de{" "}<span>
+                      {watchCatalog.length}</span> relojes en total.</>
+                ) : (
+                  <>Resultados: <span>{accessories.length}</span> {" "}
+                    {accessories.length === 1 ? "accesorio" : "accesorios"} de{" "}<span>
+                      {accessoryCatalog.length}</span> accesorios en total.</>
+                )}
               </span>
             </div>
           )}
@@ -911,6 +1022,15 @@ function App() {
             <span>Total de relojes: <span>{watchCatalog.length}</span>.</span>
 
             <span>Mostrando <span>{pageValues.length}</span> en la página.</span>
+          </div>
+        )
+      }
+      {
+        tabs.find(tab => tab.active).name === 'Accesorios' && (
+          <div className={styles.totalWatchesContainer}>
+            <span>Total de accesorios: <span>{accessoryCatalog.length}</span>.</span>
+
+            <span>Mostrando <span>{pageValuesAccessories.length}</span> en la página.</span>
           </div>
         )
       }

@@ -14,7 +14,15 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
-connectDB();
+
+app.use(async (_req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch {
+    res.status(500).json({ error: "Error connecting to MongoDB" });
+  }
+});
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

@@ -1,19 +1,27 @@
 import mongoose from "mongoose";
 
+let connectionPromise;
+
 const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, { dbName: "el-padrino" });
-    console.log(`MongoDB Connected: ${conn.connection.name}`);
-
-    /* const connect = await mongoose.connect(
-      process.env.MONGODB_URI, { dbName: "Neza" });
-
-    console.log(`MongoDB Connected: ${connect.connection.name}`); */
-  } catch (error) {
-    res.status(500).json({ error: "Error connecting to MongoDB", message: error.message });
-    console.error(`Error: ${error.message}`);
-    process.exit(1);
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
   }
+
+  if (!connectionPromise) {
+    connectionPromise = mongoose
+      .connect(process.env.MONGODB_URI, { dbName: "el-padrino" })
+      .then((conn) => {
+        console.log(`MongoDB Connected: ${conn.connection.name}`);
+        return conn;
+      })
+      .catch((error) => {
+        connectionPromise = undefined;
+        console.error(`Error connecting to MongoDB: ${error.message}`);
+        throw error;
+      });
+  }
+
+  return connectionPromise;
 };
 
 export default connectDB;

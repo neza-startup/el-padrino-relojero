@@ -90,6 +90,7 @@ function App() {
     fetchWatches();
   }, []);
 
+  // fetch accessories from the backend API and store them in the accessoryCatalog state
   useEffect(() => {
     const fetchAccessories = async () => {
       const controller = new AbortController();

@@ -5,16 +5,32 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Modal from '../components/ModalGallery';
 import styles from "../styles/Card.module.css";
 
-const Card = ({ id, name, description, price, brand, inStock, imageEndpoint }) => {
+const imagesCache = new Map();
 
-  const [images, setImages] = useState([]);
+const Card = ({ id, name, description, price, brand, inStock, imageEndpoint }) => {
+  const imageCacheKey = `${imageEndpoint}/${id}`;
+  const [images, setImages] = useState(() => imagesCache.get(imageCacheKey) ?? []);
 
   useEffect(() => {
+    const cachedImages = imagesCache.get(imageCacheKey);
+    if (cachedImages) {
+      return;
+    }
+
     const controller = new AbortController();
 
-    fetch(`${imageEndpoint}/${id}`, { signal: controller.signal })
-      .then((response) => response.ok ? response.json() : null)
-      .then((item) => setImages(Array.isArray(item?.images) ? item.images : []))
+    fetch(imageCacheKey, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((item) => {
+        const loadedImages = Array.isArray(item?.images) ? item.images : [];
+        imagesCache.set(imageCacheKey, loadedImages);
+        setImages(loadedImages);
+      })
       .catch((error) => {
         if (error.name !== 'AbortError') {
           console.error('Error loading card images:', error);
@@ -22,7 +38,7 @@ const Card = ({ id, name, description, price, brand, inStock, imageEndpoint }) =
       });
 
     return () => controller.abort();
-  }, [id, imageEndpoint]);
+  }, [imageCacheKey]);
 
   const isHighlighted = window.location.hash === `#watch-${id}`;
 

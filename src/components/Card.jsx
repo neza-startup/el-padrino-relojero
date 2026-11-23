@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Modal from '../components/ModalGallery';
 import styles from "../styles/Card.module.css";
 
+/* Cache for storing loaded images */
 const imagesCache = new Map();
 
 const Card = ({ id, name, description, price, brand, inStock, imageEndpoint }) => {

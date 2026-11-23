@@ -1,13 +1,28 @@
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { faAngleLeft, faAngleRight, faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Modal from '../components/ModalGallery';
 import styles from "../styles/Card.module.css";
 
-const Card = ({ id, name, description, images, price, brand, inStock }) => {
+const Card = ({ id, name, description, price, brand, inStock, imageEndpoint }) => {
 
-  console.log("Card props:", { id, name, images, price });
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch(`${imageEndpoint}/${id}`, { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : null)
+      .then((item) => setImages(Array.isArray(item?.images) ? item.images : []))
+      .catch((error) => {
+        if (error.name !== 'AbortError') {
+          console.error('Error loading card images:', error);
+        }
+      });
+
+    return () => controller.abort();
+  }, [id, imageEndpoint]);
 
   const isHighlighted = window.location.hash === `#watch-${id}`;
 
@@ -95,14 +110,12 @@ const Card = ({ id, name, description, images, price, brand, inStock }) => {
   const modalRef = useRef(null);
 
   const openModalGallery = () => {
-    modalRef.current?.open(
-      {
-        title: `Galería de ${name}`,
-        images: images,
-        message: description,
-        btn: "Cerrar",
-      }
-    );
+    modalRef.current?.open({
+      title: `Galería de ${name}`,
+      images,
+      message: description,
+      btn: "Cerrar",
+    });
   };
 
   /* is available */

@@ -53,9 +53,13 @@ function App() {
 
   useEffect(() => {
     const fetchWatches = async () => {
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 12_000);
+
       try {
         const response = await fetch(
-          '/api/getWatches'
+          '/api/getWatches',
+          { signal: controller.signal }
         );
 
         if (!response.ok) {
@@ -71,9 +75,14 @@ function App() {
           throw new Error('Unexpected data format');
         }
       } catch (error) {
-        console.error('Error fetching watches:', error);
+        if (error.name === 'AbortError') {
+          console.error('Timeout fetching watches');
+        } else {
+          console.error('Error fetching watches:', error);
+        }
         /* setError(error.message); */
       } finally {
+        window.clearTimeout(timeoutId);
         setLoading(false);
       }
     };
@@ -83,9 +92,13 @@ function App() {
 
   useEffect(() => {
     const fetchAccessories = async () => {
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 12_000);
+
       try {
         const response = await fetch(
-          '/api/getAccessories'
+          '/api/getAccessories',
+          { signal: controller.signal }
         );
 
         if (!response.ok) {
@@ -101,8 +114,13 @@ function App() {
           throw new Error('Unexpected data format');
         }
       } catch (error) {
-        console.error('Error fetching accessories:', error);
+        if (error.name === 'AbortError') {
+          console.error('Timeout fetching accessories');
+        } else {
+          console.error('Error fetching accessories:', error);
+        }
       } finally {
+        window.clearTimeout(timeoutId);
         setLoadingAccessories(false);
       }
     };
@@ -989,7 +1007,7 @@ function App() {
 
                     <div className={styles.cardsContainer}>
                       {pageValues.map((reloj) => (
-                        <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} brand={reloj.brand} inStock={reloj.inStock} />
+                        <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} price={reloj.price} brand={reloj.brand} inStock={reloj.inStock} imageEndpoint="/api/getWatch" />
                       ))}
                     </div>
                   </>
@@ -1006,7 +1024,7 @@ function App() {
 
               <div className={styles.cardsContainer}>
                 {pageValuesAccessories.map((accesorio) => (
-                  <Card key={accesorio.id} id={accesorio.id} name={accesorio.name} description={accesorio.description} images={accesorio.images} price={accesorio.price} brand={accesorio.brand} inStock={accesorio.inStock} />
+                  <Card key={accesorio.id} id={accesorio.id} name={accesorio.name} description={accesorio.description} price={accesorio.price} brand={accesorio.brand} inStock={accesorio.inStock} imageEndpoint="/api/getAccessory" />
                 ))}
               </div>
             </div>

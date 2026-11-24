@@ -8,6 +8,10 @@ const connectDB = async () => {
     return mongoose.connection;
   }
 
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is not configured");
+  }
+
   if (!connectionPromise) {
     connectionPromise = mongoose
       .connect(process.env.MONGODB_URI, {

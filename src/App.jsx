@@ -40,6 +40,8 @@ function App() {
   const [accessoryCatalog, setAccessoryCatalog] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingAccessories, setLoadingAccessories] = useState(true);
+  const [watchError, setWatchError] = useState('');
+  const [accessoryError, setAccessoryError] = useState('');
   const [watchHash, setWatchHash] = useState(() => window.location.hash);
   const handledWatchHash = useRef(null);
 
@@ -70,14 +72,17 @@ function App() {
 
         if (Array.isArray(data)) {
           setWatchCatalog(data);
+          setWatchError('');
           console.log(data[0]);
         } else {
           throw new Error('Unexpected data format');
         }
       } catch (error) {
         if (error.name === 'AbortError') {
+          setWatchError('La conexión con el catálogo tardó demasiado.');
           console.error('Timeout fetching watches');
         } else {
+          setWatchError('No se pudo cargar el catálogo de relojes.');
           console.error('Error fetching watches:', error);
         }
         /* setError(error.message); */
@@ -110,14 +115,17 @@ function App() {
 
         if (Array.isArray(data)) {
           setAccessoryCatalog(data);
+          setAccessoryError('');
           console.log(data[0]);
         } else {
           throw new Error('Unexpected data format');
         }
       } catch (error) {
         if (error.name === 'AbortError') {
+          setAccessoryError('La conexión con el catálogo tardó demasiado.');
           console.error('Timeout fetching accessories');
         } else {
+          setAccessoryError('No se pudo cargar el catálogo de accesorios.');
           console.error('Error fetching accessories:', error);
         }
       } finally {
@@ -1003,6 +1011,8 @@ function App() {
                     {
                       loading ? (
                         <div className={styles.loading}>Cargando catálogo de relojes...</div>
+                      ) : watchError ? (
+                        <div className={styles.loading}>{watchError}</div>
                       ) : null
                     }
 
@@ -1020,6 +1030,8 @@ function App() {
               {
                 loadingAccessories ? (
                   <div className={styles.loading}>Cargando catálogo de accesorios...</div>
+                ) : accessoryError ? (
+                  <div className={styles.loading}>{accessoryError}</div>
                 ) : null
               }
 

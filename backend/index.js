@@ -16,6 +16,19 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.get('/api/health', async (_req, res) => {
+  try {
+    await connectDB();
+    res.status(200).json({ status: "ok", database: "connected" });
+  } catch (error) {
+    res.status(503).json({
+      status: "error",
+      database: "disconnected",
+      error: error.message
+    });
+  }
+});
+
 app.use(async (_req, res, next) => {
   try {
     await connectDB();

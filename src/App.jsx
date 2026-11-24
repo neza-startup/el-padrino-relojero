@@ -19,7 +19,8 @@ import PaginationButtons from './components/PaginationButtons';
 import usePagination from './components/usePagination';
 
 function App() {
-  const [isOnDevelopment, setIsOnDevelopment] = useState(false);
+  /* set to true for development mode */
+  const [isOnDevelopment, setIsOnDevelopment] = useState(true);
   const modalRef = useRef(null);
   const modalPoliciesRef = useRef(null);
   const modalRefSettings = useRef(null);

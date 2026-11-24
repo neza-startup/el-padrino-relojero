@@ -11,7 +11,7 @@ import styles from './styles/App.module.css';
 /* import Modal from './Modal'; */
 import nezaLogo from './assets/neza-logo.svg';
 import profile from './assets/profile.webp';
-import profile_accesorios from './assets/profile_accesorios.jpg';
+import profile_accesorios from './assets/profile_accesorios.webp';
 import Card from './components/Card';
 import Modal from './components/Modal';
 import ModalPolicies from './components/ModalPolicies';
@@ -20,22 +20,31 @@ import usePagination from './components/usePagination';
 
 function App() {
   /* set to true for development mode */
-  const [isOnDevelopment, setIsOnDevelopment] = useState(true);
+  const [isOnDevelopment, setIsOnDevelopment] = useState(false);
   const modalRef = useRef(null);
   const modalPoliciesRef = useRef(null);
   const modalRefSettings = useRef(null);
-  const [tabs, setTabs] = useState([
-    {
-      id: 1,
-      name: 'Relojes',
-      active: true
-    },
-    {
-      id: 2,
-      name: 'Accesorios',
-      active: false
-    },
-  ]);
+  const [tabs, setTabs] = useState(() => {
+    const hash = window.location.hash;
+    const tabName = hash.startsWith('#accessory-')
+      ? 'Accesorios'
+      : hash.startsWith('#watch-')
+        ? 'Relojes'
+        : new URLSearchParams(window.location.search).get('tab') || 'Relojes';
+
+    return [
+      {
+        id: 1,
+        name: 'Relojes',
+        active: tabName === 'Relojes'
+      },
+      {
+        id: 2,
+        name: 'Accesorios',
+        active: tabName === 'Accesorios'
+      },
+    ];
+  });
 
   const [watchCatalog, setWatchCatalog] = useState([]);
   const [accessoryCatalog, setAccessoryCatalog] = useState([]);
@@ -45,9 +54,23 @@ function App() {
   const [accessoryError, setAccessoryError] = useState('');
   const [watchHash, setWatchHash] = useState(() => window.location.hash);
   const handledWatchHash = useRef(null);
+  const handledAccessoryHash = useRef(null);
 
   useEffect(() => {
-    const handleHashChange = () => setWatchHash(window.location.hash);
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      setWatchHash(hash);
+
+      if (hash.startsWith('#watch-') || hash.startsWith('#accessory-')) {
+        const tabName = hash.startsWith('#watch-') ? 'Relojes' : 'Accesorios';
+        setTabs((prevTabs) =>
+          prevTabs.map((tab) => ({
+            ...tab,
+            active: tab.name === tabName,
+          }))
+        );
+      }
+    };
 
     window.addEventListener('hashchange', handleHashChange);
 
@@ -262,7 +285,13 @@ function App() {
   /* when the URL changes and on mount, update the active tab */
   const setActiveTabFromURL = () => {
     const params = new URLSearchParams(window.location.search);
-    const tabName = params.get("tab") || "Relojes";
+    const hash = window.location.hash;
+    setWatchHash(hash);
+    const tabName = hash.startsWith("#accessory-")
+      ? "Accesorios"
+      : hash.startsWith("#watch-")
+        ? "Relojes"
+        : params.get("tab") || "Relojes";
 
     setTabs((prevTabs) =>
       prevTabs.map((tab) => ({
@@ -314,12 +343,17 @@ function App() {
 
     const params = new URLSearchParams(window.location.search);
     const currentTab = params.get("tab");
+    const hash = window.location.hash;
+    const hashMatchesActiveTab =
+      (activeTab.name === 'Relojes' && hash.startsWith('#watch-'))
+      || (activeTab.name === 'Accesorios' && hash.startsWith('#accessory-'));
+    const hashToKeep = hashMatchesActiveTab ? hash : '';
 
-    if (currentTab !== activeTab.name) {
+    if (currentTab !== activeTab.name || (hash && !hashMatchesActiveTab)) {
       window.history.pushState(
         null,
         "",
-        `?tab=${activeTab.name}${window.location.hash}`
+        `?tab=${activeTab.name}${hashToKeep}`
       );
     }
   }, [tabs]);
@@ -346,6 +380,27 @@ function App() {
       );
     }
   }, [loading, watchCatalog, watchHash]);
+
+  useEffect(() => {
+    if (loadingAccessories) return;
+
+    const hash = watchHash;
+
+    if (!hash.startsWith('#accessory-')) return;
+
+    const accessoryId = hash.replace('#accessory-', '');
+    const accessoryExists = accessoryCatalog.some(
+      (accessory) => String(accessory.id) === accessoryId
+    );
+
+    if (!accessoryExists) {
+      window.history.replaceState(
+        null,
+        '',
+        `${window.location.pathname}?tab=Accesorios`
+      );
+    }
+  }, [loadingAccessories, accessoryCatalog, watchHash]);
 
   const handleShare = () => {
     const shareData = {
@@ -561,6 +616,43 @@ function App() {
 
     return () => clearTimeout(timeoutId);
   }, [goTo, page, recordsPerPage, watchHash, watches]);
+
+  useEffect(() => {
+    const hash = watchHash;
+
+    if (!hash.startsWith('#accessory-')) return;
+    if (handledAccessoryHash.current === hash) return;
+
+    const accessoryId = hash.replace('#accessory-', '');
+    const accessoryIndex = accessories.findIndex(
+      (accessory) => String(accessory.id) === accessoryId
+    );
+
+    if (accessoryIndex === -1) return;
+
+    const targetPage = Math.floor(accessoryIndex / recordsPerPage);
+
+    if (pageAccessories !== targetPage) {
+      goToAccessories(targetPage);
+      return;
+    }
+
+    const scrollToAccessory = () => {
+      const element = document.getElementById(`accessory-${accessoryId}`);
+
+      if (!element) return;
+
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+      handledAccessoryHash.current = hash;
+    };
+
+    const timeoutId = setTimeout(scrollToAccessory, 50);
+
+    return () => clearTimeout(timeoutId);
+  }, [goToAccessories, pageAccessories, recordsPerPage, watchHash, accessories]);
 
   const filterWatches = (filter) => {
     setCurrentFilter(filter);
@@ -1038,7 +1130,7 @@ function App() {
 
               <div className={styles.cardsContainer}>
                 {pageValuesAccessories.map((accesorio) => (
-                  <Card key={accesorio.id} id={accesorio.id} name={accesorio.name} description={accesorio.description} price={accesorio.price} brand={accesorio.brand} inStock={accesorio.inStock} imageEndpoint="/api/getAccessory" />
+                  <Card key={accesorio.id} id={accesorio.id} name={accesorio.name} description={accesorio.description} price={accesorio.price} brand={accesorio.brand} inStock={accesorio.inStock} imageEndpoint="/api/getAccessory" itemType="accessory" />
                 ))}
               </div>
             </div>

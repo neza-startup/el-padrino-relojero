@@ -158,7 +158,7 @@ div.linkInBio {
 
       /* selecciona una imagen y aplicala solo si el tema es dark */
       @media (prefers-color-scheme: dark) {
-        content: url("../src/assets/profile_dark.png");
+        content: url("../src/assets/profile_dark.webp");
       }
     }
 

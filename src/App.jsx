@@ -121,17 +121,17 @@ function App() {
         if (Array.isArray(data)) {
           setWatchCatalog(data);
           setWatchError('');
-          console.log(data[0]);
+          /* console.log(data[0]); */
         } else {
           throw new Error('Unexpected data format');
         }
       } catch (error) {
         if (error.name === 'AbortError') {
           setWatchError('La conexión con el catálogo tardó demasiado.');
-          console.error('Timeout fetching watches');
+          //console.error('Timeout fetching watches');
         } else {
           setWatchError('No se pudo cargar el catálogo de relojes.');
-          console.error('Error fetching watches:', error);
+          //console.error('Error fetching watches:', error);
         }
         /* setError(error.message); */
       } finally {
@@ -164,17 +164,17 @@ function App() {
         if (Array.isArray(data)) {
           setAccessoryCatalog(data);
           setAccessoryError('');
-          console.log(data[0]);
+          //console.log(data[0]);
         } else {
           throw new Error('Unexpected data format');
         }
       } catch (error) {
         if (error.name === 'AbortError') {
           setAccessoryError('La conexión con el catálogo tardó demasiado.');
-          console.error('Timeout fetching accessories');
+          //console.error('Timeout fetching accessories');
         } else {
           setAccessoryError('No se pudo cargar el catálogo de accesorios.');
-          console.error('Error fetching accessories:', error);
+          //console.error('Error fetching accessories:', error);
         }
       } finally {
         window.clearTimeout(timeoutId);

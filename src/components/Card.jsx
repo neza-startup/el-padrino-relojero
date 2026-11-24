@@ -8,7 +8,7 @@ import styles from "../styles/Card.module.css";
 /* Cache for storing loaded images */
 const imagesCache = new Map();
 
-const Card = ({ id, name, description, price, brand, inStock, imageEndpoint }) => {
+const Card = ({ id, name, description, price, brand, inStock, imageEndpoint, itemType = 'watch' }) => {
   const imageCacheKey = `${imageEndpoint}/${id}`;
   const [images, setImages] = useState(() => imagesCache.get(imageCacheKey) ?? []);
 
@@ -41,14 +41,18 @@ const Card = ({ id, name, description, price, brand, inStock, imageEndpoint }) =
     return () => controller.abort();
   }, [imageCacheKey]);
 
-  const isHighlighted = window.location.hash === `#watch-${id}`;
+  const hashPrefix = itemType === 'accessory' ? '#accessory-' : '#watch-';
+  const elementPrefix = itemType === 'accessory' ? 'accessory-' : 'watch-';
+  const tabName = itemType === 'accessory' ? 'Accesorios' : 'Relojes';
+  const itemLabel = itemType === 'accessory' ? 'accesorio' : 'reloj';
+  const isHighlighted = window.location.hash === `${hashPrefix}${id}`;
 
   const handleShare = () => {
-    const url = `${window.location.origin}${window.location.pathname}?tab=Relojes#watch-${id}`;
+    const url = `${window.location.origin}${window.location.pathname}?tab=${tabName}${hashPrefix}${id}`;
 
     const shareData = {
       title: 'El Padrino Relojero',
-      text: `¡Mira este reloj! ${name} por ${price}`,
+      text: `¡Mira este ${itemLabel}! ${name} por ${price}`,
       url/* : window.location.href, */
     };
 
@@ -141,7 +145,7 @@ const Card = ({ id, name, description, price, brand, inStock, imageEndpoint }) =
   return (
     <div className={`${styles.card} ${isHighlighted ? styles.highlighted : ''
       }`}
-      id={`watch-${id}`}>
+      id={`${elementPrefix}${id}`}>
       {/* <p>{description}</p> */}
       <h5>{brand}</h5>
       <h4>{name}</h4>

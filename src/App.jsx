@@ -22,7 +22,7 @@ import usePagination from './components/usePagination';
 
 function App() {
   /* set to true for development mode */
-  const [isOnDevelopment, setIsOnDevelopment] = useState(false);
+  const [isOnDevelopment, setIsOnDevelopment] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(
     () => window.matchMedia('(prefers-color-scheme: dark)').matches
   );

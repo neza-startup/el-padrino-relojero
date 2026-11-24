@@ -24,18 +24,27 @@ function App() {
   const modalRef = useRef(null);
   const modalPoliciesRef = useRef(null);
   const modalRefSettings = useRef(null);
-  const [tabs, setTabs] = useState([
-    {
-      id: 1,
-      name: 'Relojes',
-      active: true
-    },
-    {
-      id: 2,
-      name: 'Accesorios',
-      active: false
-    },
-  ]);
+  const [tabs, setTabs] = useState(() => {
+    const hash = window.location.hash;
+    const tabName = hash.startsWith('#accessory-')
+      ? 'Accesorios'
+      : hash.startsWith('#watch-')
+        ? 'Relojes'
+        : new URLSearchParams(window.location.search).get('tab') || 'Relojes';
+
+    return [
+      {
+        id: 1,
+        name: 'Relojes',
+        active: tabName === 'Relojes'
+      },
+      {
+        id: 2,
+        name: 'Accesorios',
+        active: tabName === 'Accesorios'
+      },
+    ];
+  });
 
   const [watchCatalog, setWatchCatalog] = useState([]);
   const [accessoryCatalog, setAccessoryCatalog] = useState([]);
@@ -277,8 +286,12 @@ function App() {
   const setActiveTabFromURL = () => {
     const params = new URLSearchParams(window.location.search);
     const hash = window.location.hash;
-    const tabName = params.get("tab")
-      || (hash.startsWith("#accessory-") ? "Accesorios" : "Relojes");
+    setWatchHash(hash);
+    const tabName = hash.startsWith("#accessory-")
+      ? "Accesorios"
+      : hash.startsWith("#watch-")
+        ? "Relojes"
+        : params.get("tab") || "Relojes";
 
     setTabs((prevTabs) =>
       prevTabs.map((tab) => ({

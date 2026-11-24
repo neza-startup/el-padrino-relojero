@@ -20,7 +20,7 @@ import usePagination from './components/usePagination';
 
 function App() {
   /* set to true for development mode */
-  const [isOnDevelopment, setIsOnDevelopment] = useState(true);
+  const [isOnDevelopment, setIsOnDevelopment] = useState(false);
   const modalRef = useRef(null);
   const modalPoliciesRef = useRef(null);
   const modalRefSettings = useRef(null);

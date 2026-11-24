@@ -1,5 +1,16 @@
 # React + Vite
 
+## MongoDB and Vercel
+
+The frontend and backend are deployed separately. The backend requires `MONGODB_URI` as
+an environment variable in the Vercel project:
+
+1. Add the MongoDB Atlas connection string as `MONGODB_URI`.
+2. Redeploy the backend.
+3. Allow Vercel connections in MongoDB Atlas Network Access (`0.0.0.0/0` only if
+   the database is intentionally public to serverless clients).
+4. Verify `https://el-padrino-relojero-backend.vercel.app/api/health`.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

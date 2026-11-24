@@ -1,13 +1,45 @@
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { faAngleLeft, faAngleRight, faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Modal from '../components/ModalGallery';
 import styles from "../styles/Card.module.css";
 
-const Card = ({ id, name, description, images, price, brand, inStock }) => {
+/* Cache for storing loaded images */
+const imagesCache = new Map();
 
-  console.log("Card props:", { id, name, images, price });
+const Card = ({ id, name, description, price, brand, inStock, imageEndpoint }) => {
+  const imageCacheKey = `${imageEndpoint}/${id}`;
+  const [images, setImages] = useState(() => imagesCache.get(imageCacheKey) ?? []);
+
+  useEffect(() => {
+    const cachedImages = imagesCache.get(imageCacheKey);
+    if (cachedImages) {
+      return;
+    }
+
+    const controller = new AbortController();
+
+    fetch(imageCacheKey, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((item) => {
+        const loadedImages = Array.isArray(item?.images) ? item.images : [];
+        imagesCache.set(imageCacheKey, loadedImages);
+        setImages(loadedImages);
+      })
+      .catch((error) => {
+        if (error.name !== 'AbortError') {
+          console.error('Error loading card images:', error);
+        }
+      });
+
+    return () => controller.abort();
+  }, [imageCacheKey]);
 
   const isHighlighted = window.location.hash === `#watch-${id}`;
 
@@ -95,14 +127,12 @@ const Card = ({ id, name, description, images, price, brand, inStock }) => {
   const modalRef = useRef(null);
 
   const openModalGallery = () => {
-    modalRef.current?.open(
-      {
-        title: `Galería de ${name}`,
-        images: images,
-        message: description,
-        btn: "Cerrar",
-      }
-    );
+    modalRef.current?.open({
+      title: `Galería de ${name}`,
+      images,
+      message: description,
+      btn: "Cerrar",
+    });
   };
 
   /* is available */

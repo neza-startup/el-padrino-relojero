@@ -1,3 +1,4 @@
+/* global process */
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -15,12 +16,28 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.get('/api/health', async (_req, res) => {
+  try {
+    await connectDB();
+    res.status(200).json({ status: "ok", database: "connected" });
+  } catch (error) {
+    res.status(503).json({
+      status: "error",
+      database: "disconnected",
+      error: error.message
+    });
+  }
+});
+
 app.use(async (_req, res, next) => {
   try {
     await connectDB();
     next();
-  } catch {
-    res.status(500).json({ error: "Error connecting to MongoDB" });
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error.message);
+    res.status(503).json({
+      error: "La base de datos no está disponible. Intenta de nuevo en unos segundos."
+    });
   }
 });
 
@@ -31,6 +48,10 @@ app.get('/', (req, res) => {
 app.use('/api', watchRoutes);
 app.use('/api', accessoryRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+export default app;

@@ -40,8 +40,14 @@ export const postWatch = async (req, res) => {
   }
 };
 
-export const getAllWatches = (req, res) => {
+export const getAllWatches = (_req, res) => {
+  res.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+
   Watch.find()
+    .select('id name description price brand bestSeller inStock isForWoman')
+    .maxTimeMS(8_000)
+    .lean()
+    .exec()
     .then((watches) => {
       res.status(200).json(watches);
     })
@@ -52,8 +58,9 @@ export const getAllWatches = (req, res) => {
 
 export const getWatchById = (req, res) => {
   const { id } = req.params;
+  const query = Watch.findOne({ id }).maxTimeMS(8_000);
 
-  Watch.findById(id)
+  query
     .then((watch) => {
       if (!watch) {
         return res.status(404).json({ error: 'Watch not found' });

@@ -1,3 +1,4 @@
+/* global process */
 import mongoose from "mongoose";
 
 let connectionPromise;
@@ -7,9 +8,18 @@ const connectDB = async () => {
     return mongoose.connection;
   }
 
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is not configured");
+  }
+
   if (!connectionPromise) {
     connectionPromise = mongoose
-      .connect(process.env.MONGODB_URI, { dbName: "el-padrino" })
+      .connect(process.env.MONGODB_URI, {
+        dbName: "el-padrino",
+        serverSelectionTimeoutMS: 10_000,
+        connectTimeoutMS: 10_000,
+        maxPoolSize: 10
+      })
       .then((conn) => {
         console.log(`MongoDB Connected: ${conn.connection.name}`);
         return conn;

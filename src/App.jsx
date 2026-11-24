@@ -19,7 +19,7 @@ import PaginationButtons from './components/PaginationButtons';
 import usePagination from './components/usePagination';
 
 function App() {
-  const [isOnDevelopment, setIsOnDevelopment] = useState(true);
+  const [isOnDevelopment, setIsOnDevelopment] = useState(false);
   const modalRef = useRef(null);
   const modalPoliciesRef = useRef(null);
   const modalRefSettings = useRef(null);
@@ -40,6 +40,8 @@ function App() {
   const [accessoryCatalog, setAccessoryCatalog] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingAccessories, setLoadingAccessories] = useState(true);
+  const [watchError, setWatchError] = useState('');
+  const [accessoryError, setAccessoryError] = useState('');
   const [watchHash, setWatchHash] = useState(() => window.location.hash);
   const handledWatchHash = useRef(null);
 
@@ -53,9 +55,13 @@ function App() {
 
   useEffect(() => {
     const fetchWatches = async () => {
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 12_000);
+
       try {
         const response = await fetch(
-          '/api/getWatches'
+          '/api/getWatches',
+          { signal: controller.signal }
         );
 
         if (!response.ok) {
@@ -66,14 +72,22 @@ function App() {
 
         if (Array.isArray(data)) {
           setWatchCatalog(data);
+          setWatchError('');
           console.log(data[0]);
         } else {
           throw new Error('Unexpected data format');
         }
       } catch (error) {
-        console.error('Error fetching watches:', error);
+        if (error.name === 'AbortError') {
+          setWatchError('La conexión con el catálogo tardó demasiado.');
+          console.error('Timeout fetching watches');
+        } else {
+          setWatchError('No se pudo cargar el catálogo de relojes.');
+          console.error('Error fetching watches:', error);
+        }
         /* setError(error.message); */
       } finally {
+        window.clearTimeout(timeoutId);
         setLoading(false);
       }
     };
@@ -81,11 +95,16 @@ function App() {
     fetchWatches();
   }, []);
 
+  // fetch accessories from the backend API and store them in the accessoryCatalog state
   useEffect(() => {
     const fetchAccessories = async () => {
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 12_000);
+
       try {
         const response = await fetch(
-          '/api/getAccessories'
+          '/api/getAccessories',
+          { signal: controller.signal }
         );
 
         if (!response.ok) {
@@ -96,13 +115,21 @@ function App() {
 
         if (Array.isArray(data)) {
           setAccessoryCatalog(data);
+          setAccessoryError('');
           console.log(data[0]);
         } else {
           throw new Error('Unexpected data format');
         }
       } catch (error) {
-        console.error('Error fetching accessories:', error);
+        if (error.name === 'AbortError') {
+          setAccessoryError('La conexión con el catálogo tardó demasiado.');
+          console.error('Timeout fetching accessories');
+        } else {
+          setAccessoryError('No se pudo cargar el catálogo de accesorios.');
+          console.error('Error fetching accessories:', error);
+        }
       } finally {
+        window.clearTimeout(timeoutId);
         setLoadingAccessories(false);
       }
     };
@@ -984,12 +1011,14 @@ function App() {
                     {
                       loading ? (
                         <div className={styles.loading}>Cargando catálogo de relojes...</div>
+                      ) : watchError ? (
+                        <div className={styles.loading}>{watchError}</div>
                       ) : null
                     }
 
                     <div className={styles.cardsContainer}>
                       {pageValues.map((reloj) => (
-                        <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} images={reloj.images} price={reloj.price} brand={reloj.brand} inStock={reloj.inStock} />
+                        <Card key={reloj.id} id={reloj.id} name={reloj.name} description={reloj.description} price={reloj.price} brand={reloj.brand} inStock={reloj.inStock} imageEndpoint="/api/getWatch" />
                       ))}
                     </div>
                   </>
@@ -1001,12 +1030,14 @@ function App() {
               {
                 loadingAccessories ? (
                   <div className={styles.loading}>Cargando catálogo de accesorios...</div>
+                ) : accessoryError ? (
+                  <div className={styles.loading}>{accessoryError}</div>
                 ) : null
               }
 
               <div className={styles.cardsContainer}>
                 {pageValuesAccessories.map((accesorio) => (
-                  <Card key={accesorio.id} id={accesorio.id} name={accesorio.name} description={accesorio.description} images={accesorio.images} price={accesorio.price} brand={accesorio.brand} inStock={accesorio.inStock} />
+                  <Card key={accesorio.id} id={accesorio.id} name={accesorio.name} description={accesorio.description} price={accesorio.price} brand={accesorio.brand} inStock={accesorio.inStock} imageEndpoint="/api/getAccessory" />
                 ))}
               </div>
             </div>

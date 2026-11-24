@@ -40,8 +40,14 @@ export const postAccessory = async (req, res) => {
   }
 };
 
-export const getAllAccessories = (req, res) => {
+export const getAllAccessories = (_req, res) => {
+  res.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+
   Accessory.find()
+    .select('id name description price brand bestSeller inStock isForWoman')
+    .maxTimeMS(8_000)
+    .lean()
+    .exec()
     .then((accessories) => {
       res.status(200).json(accessories);
     })
@@ -52,8 +58,9 @@ export const getAllAccessories = (req, res) => {
 
 export const getAccessoryById = (req, res) => {
   const { id } = req.params;
+  const query = Accessory.findOne({ id }).maxTimeMS(8_000);
 
-  Accessory.findById(id)
+  query
     .then((accessory) => {
       if (!accessory) {
         return res.status(404).json({ error: 'Accessory not found' });

@@ -11,7 +11,9 @@ import styles from './styles/App.module.css';
 /* import Modal from './Modal'; */
 import nezaLogo from './assets/neza-logo.svg';
 import profile from './assets/profile.webp';
-import profile_accesorios from './assets/profile_accesorios.webp';
+import profile_accesorios_dark from './assets/profile_accesorios2.webp';
+import profile_accesorios from './assets/profile_accesorios_dark2.webp';
+import profile_dark from './assets/profile_dark.webp';
 import Card from './components/Card';
 import Modal from './components/Modal';
 import ModalPolicies from './components/ModalPolicies';
@@ -21,6 +23,9 @@ import usePagination from './components/usePagination';
 function App() {
   /* set to true for development mode */
   const [isOnDevelopment, setIsOnDevelopment] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(
+    () => window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
   const modalRef = useRef(null);
   const modalPoliciesRef = useRef(null);
   const modalRefSettings = useRef(null);
@@ -75,6 +80,25 @@ function App() {
     window.addEventListener('hashchange', handleHashChange);
 
     return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleColorSchemeChange = (event) => setIsDarkMode(event.matches);
+
+    if (colorScheme.addEventListener) {
+      colorScheme.addEventListener('change', handleColorSchemeChange);
+    } else {
+      colorScheme.addListener(handleColorSchemeChange);
+    }
+
+    return () => {
+      if (colorScheme.removeEventListener) {
+        colorScheme.removeEventListener('change', handleColorSchemeChange);
+      } else {
+        colorScheme.removeListener(handleColorSchemeChange);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -714,7 +738,16 @@ function App() {
       <div className={styles.linkInBio}>
         {/* TODO: ADD Modal like Instagram Stories */}
         <figure className={styles.profileFigure}>
-          <img src={tabs.find(tab => tab.active).name === 'Relojes' ? profile : profile_accesorios} alt="My Profile Picture" className={styles.profileImage} onClick={handleModal} />
+          <img
+            src={
+              tabs.find(tab => tab.active).name === 'Relojes'
+                ? (isDarkMode ? profile_dark : profile)
+                : (isDarkMode ? profile_accesorios_dark : profile_accesorios)
+            }
+            alt="My Profile Picture"
+            className={styles.profileImage}
+            onClick={handleModal}
+          />
           {/* <div className={styles.onlineStatus}> */}
           {/* <span className={styles.statusIndicator}></span> */}
           {/* <span>Online</span> */}

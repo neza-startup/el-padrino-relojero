@@ -155,11 +155,6 @@ div.linkInBio {
       aspect-ratio: 1 / 1;
       object-fit: cover;
       object-position: center;
-
-      /* selecciona una imagen y aplicala solo si el tema es dark */
-      @media (prefers-color-scheme: dark) {
-        content: url("../src/assets/profile_dark.webp");
-      }
     }
 
     /* div.onlineStatus {

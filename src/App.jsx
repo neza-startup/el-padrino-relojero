@@ -11,7 +11,7 @@ import styles from './styles/App.module.css';
 /* import Modal from './Modal'; */
 import nezaLogo from './assets/neza-logo.svg';
 import profile from './assets/profile.webp';
-import profile_accesorios from './assets/profile_accesorios.jpg';
+import profile_accesorios from './assets/profile_accesorios.webp';
 import Card from './components/Card';
 import Modal from './components/Modal';
 import ModalPolicies from './components/ModalPolicies';

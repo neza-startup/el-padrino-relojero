@@ -46,6 +46,10 @@ const Card = ({ id, name, description, price, brand, inStock, imageEndpoint, ite
   const tabName = itemType === 'accessory' ? 'Accesorios' : 'Relojes';
   const itemLabel = itemType === 'accessory' ? 'accesorio' : 'reloj';
   const isHighlighted = window.location.hash === `${hashPrefix}${id}`;
+  const itemLink = `${window.location.origin}${window.location.pathname}?tab=${tabName}${hashPrefix}${id}`;
+  const whatsappUrl = `https://wa.me/528120771233?text=${encodeURIComponent(
+    `Hola, estoy interesado en el ${itemLabel} ${brand} ${name}\n${itemLink}`
+  )}`;
 
   const handleShare = () => {
     const url = `${window.location.origin}${window.location.pathname}?tab=${tabName}${hashPrefix}${id}`;
@@ -199,7 +203,7 @@ const Card = ({ id, name, description, price, brand, inStock, imageEndpoint, ite
         {description}
       </p>
 
-      <a href={`https://wa.me/528120771233?text=Hola,%20estoy%20interesado%20en%20el%20${itemLabel}%20${brand}%20${name}`} target="_blank" rel="noopener noreferrer">
+      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
         <FontAwesomeIcon icon={faWhatsapp} className={styles.icon} />
         ¡Lo quiero!
       </a>

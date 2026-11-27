@@ -51,9 +51,9 @@ const Modal = forwardRef((_, ref) => {
 
         <span>Política de Envíos:</span>
         <ul>
-          <li>Todos los pedidos se procesan y envían dentro de 1-3 días hábiles.</li>
+          <li>Todos los pedidos se procesan y envían dentro de 1-3 días hábiles. (Si no esta disponible el tiempo de espera estimado es de 15 días).</li>
           <li>Los tiempos de entrega pueden variar según la ubicación del cliente y el método de envío seleccionado.</li>
-          <li>Una vez que su pedido haya sido enviado, recibirá una notificación de confirmación con un número de seguimiento.</li>
+          <li>Una vez que su pedido haya sido enviado, recibirá una notificación de confirmación con un número de seguimiento vía WhatsApp por parte de la plataforma Skydropx.</li>
         </ul>
 
       </p>
@@ -61,10 +61,14 @@ const Modal = forwardRef((_, ref) => {
       <p>
         <span>Política de Devoluciones:</span>
         <ul>
-          <li>Aceptamos devoluciones dentro de los 14 días posteriores a la recepción del pedido.</li>
-          <li>Para ser elegible para una devolución, el artículo debe estar en su estado original, sin usar y con todas las etiquetas y empaques originales.</li>
-          <li>Los gastos de envío no son reembolsables.</li>
-          <li>Para iniciar una devolución, comunícate conmigo a través de WhatsApp.</li>
+          <li>No se aceptan devoluciones, cancelaciones ni reembolsos de cualquier articulo bajo ningun concepto una vez enviado o entregado.</li>
+        </ul>
+      </p>
+
+      <p>
+        <span>Política de Garantía:</span>
+        <ul>
+          <li>Todos los relojes tienen una garantía de 3 meses contra defectos "EN MAQUINARÍA".</li>
         </ul>
       </p>
       {/* TODO: HEADER, BODY AND FOOTER */}

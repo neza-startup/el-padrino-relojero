@@ -144,7 +144,7 @@ const Card = ({ id, name, description, price, brand, inStock, imageEndpoint, ite
   };
 
   /* is available */
-  const isAvailable = inStock ? "Disponible" : "Agotado";
+  // const isAvailable = inStock ? "Disponible" : "Agotado";
 
   return (
     <div className={`${styles.card} ${isHighlighted ? styles.highlighted : ''
@@ -195,9 +195,9 @@ const Card = ({ id, name, description, price, brand, inStock, imageEndpoint, ite
       </figure>
       {/* description */}
 
-      <span className={`${styles.availability} ${inStock ? styles.available : styles.unavailable}`}>
+      {/* <span className={`${styles.availability} ${inStock ? styles.available : styles.unavailable}`}>
         {isAvailable}
-      </span>
+      </span> */}
 
       <p className={styles.description}>
         {description}

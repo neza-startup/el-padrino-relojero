@@ -754,7 +754,7 @@ function App() {
           {/* </div> */}
         </figure>
         <header className={styles.header}>
-          <h1 className={styles.heading}>El Padrino {activeTab.name}</h1>
+          <h1 className={styles.heading}>El Padrino {activeTab.name === 'Relojes' ? 'Relojero' : 'Accesorios'}</h1>
           <span className={styles.username}>
             {
               tabs.find(tab => tab.active).name === 'Relojes' && ('@elpadrino_relojero')
@@ -804,7 +804,7 @@ function App() {
                   </div>
 
                   <div className={styles.stat}>
-                    <span>50+</span>
+                    <span>250+</span>
                     <span>Modelos</span>
                   </div>
                 </>
@@ -824,7 +824,7 @@ function App() {
                   </div>
 
                   <div className={styles.stat}>
-                    <span>20+</span>
+                    <span>50+</span>
                     <span>Artículos</span>
                   </div>
                 </>
@@ -843,7 +843,7 @@ function App() {
                     Cada hombre tiene su propio destino🌹
                   </span>
                   <span className={styles.owner}>
-                    By: David Juárez el Padrino ⌚️
+                    By: El Padrino ⌚️
                   </span>
                   <span>
                     Entregas personales 🤝
@@ -868,7 +868,7 @@ function App() {
                     Madrinas y Padrinos ❤️
                   </span>
                   <span className={styles.owner}>
-                    By: David Juárez el Padrino 🌹
+                    By: El Padrino 🌹
                   </span>
                   {/* <span>
                     Envíos Gratis ✈️
@@ -900,11 +900,11 @@ function App() {
               <FontAwesomeIcon icon={faTiktok} className={styles.icon} />
               <span>Tiktok</span>
             </a>
-            <a href="https://wa.me/527771204363" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
+            <a href="https://wa.me/528120771233" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
               <FontAwesomeIcon icon={faWhatsapp} className={styles.icon} />
               WhatsApp
             </a>
-            <a href="tel:+527771204363" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
+            <a href="tel:+528120771233" target="_blank" rel="noopener noreferrer" className={styles.headerLink}>
               <FontAwesomeIcon icon={faPhone} className={styles.icon} />
               Tel&eacute;fono
             </a>
@@ -977,10 +977,10 @@ function App() {
                       ))
                     }
                   </optgroup>
-                  <optgroup label="Disponibilidad">
+                  {/* <optgroup label="Disponibilidad">
                     <option value="inStock">Disponibles</option>
                     <option value="outOfStock">Agotados</option>
-                  </optgroup>
+                  </optgroup> */}
 
                   <optgroup label="Género">
                     <option value="isForWoman">Para Mujer</option>
